@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->group(function () {
+    Route::resource('genres', 'GenreController')->only([
+        'index', 'store','show','update','destroy'
+    ]);
+    Route::resource('publishers', 'PublisherController')->only([
+        'index', 'store','show','update','destroy'
+    ]);
 });
