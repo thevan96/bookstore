@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::prefix('user')->group(function () {
+    Route::get('home', function () {
+        return view('user.home');
+    });
+});
 
 Route::prefix('admin')->group(function () {
     Route::resource('genres', 'GenreController')->only([

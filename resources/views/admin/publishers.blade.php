@@ -5,8 +5,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <!-- CSS Files -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/paper-dashboard.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/admin/css/paper-dashboard.css') }}" rel="stylesheet" />
     <!--Datatable-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 
@@ -67,22 +67,22 @@
 @endsection()
 @section('js')
     <!--   Core JS Files   -->
-    <script src="{{ asset('assets/js/core/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/perfect-scrollbar.jquery.min.js') }}></script>
+    <script src="{{ asset('assets/admin/js/core/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/perfect-scrollbar.jquery.min.js') }}></script>
 
     <!--  Google Maps Plugin    -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Chart JS -->
-    <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/chartjs.min.js') }}"></script>
 
     <!--  Notifications Plugin    -->
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/bootstrap-notify.js') }}"></script>
 
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{ asset('assets/js/paper-dashboard.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/paper-dashboard.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
     <!-- Boot box-->
