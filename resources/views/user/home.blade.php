@@ -22,218 +22,113 @@
 
     <!-- Modernizer js -->
     <script src="{{ asset('assets/user/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+
 @endsection()
+
 @section('content')
-        <!-- Start Shop Page -->
-        <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
-            <div class="container">
-                <div class="row">
+    <!-- Start Shop Page -->
+    <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+        <div class="container">
+            <div class="row">
 
-                    <div class="order-2 col-lg-3 col-12 order-lg-1 md-mt-40 sm-mt-40">
-                        <div class="shop__sidebar">
-                            <aside class="wedget__categories poroduct--cat">
-                                <h3 class="wedget__title">Product Categories</h3>
-                                <ul>
-                                    <li><a href="#">Biography <span>(3)</span></a></li>
-                                    <li><a href="#">Business <span>(4)</span></a></li>
-                                    <li><a href="#">Cookbooks <span>(6)</span></a></li>
-                                    <li><a href="#">Health & Fitness <span>(7)</span></a></li>
-                                    <li><a href="#">History <span>(8)</span></a></li>
-                                    <li><a href="#">Mystery <span>(9)</span></a></li>
-                                    <li><a href="#">Inspiration <span>(13)</span></a></li>
-                                    <li><a href="#">Romance <span>(20)</span></a></li>
-                                    <li><a href="#">Fiction/Fantasy <span>(22)</span></a></li>
-                                    <li><a href="#">Self-Improvement <span>(13)</span></a></li>
-                                    <li><a href="#">Humor Books <span>(17)</span></a></li>
-                                    <li><a href="#">Harry Potter <span>(20)</span></a></li>
-                                    <li><a href="#">Land of Stories <span>(34)</span></a></li>
-                                    <li><a href="#">Kids' Music <span>(60)</span></a></li>
-                                    <li><a href="#">Toys & Games <span>(3)</span></a></li>
-                                    <li><a href="#">hoodies <span>(3)</span></a></li>
-                                </ul>
-                            </aside>
-                        </div>
+                <div class="order-2 col-lg-3 col-12 order-lg-1 md-mt-40 sm-mt-40">
+                    <div class="shop__sidebar">
+                        <aside class="wedget__categories poroduct--cat">
+                            <h3 class="wedget__title">Thể loại sách</h3>
+                            <ul>
+                            <li><a href="{{ route('home.index')}}">Tất cả thể loại<span>({{ $totalBook }})</span></a></li>
+                                @foreach ($genres as $genre)
+                                <li><a href="{{ route('home.index', ['id' => $genre->id]) }}">{{ $genre->name }}<span>({{ $genre->books_count }})</span></a></li>
+                                @endforeach
+                            </ul>
+                        </aside>
                     </div>
+                </div>
 
-                    <div class="order-1 col-lg-9 col-12 order-lg-2">
-                        <div class="row">
-                            <div class="col-lg-12">
+                <div class="order-1 col-lg-9 col-12 order-lg-2">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form action="{{ route('home.search') }}" method="post">
+                                @csrf
                                 <div class="mb-3 input-group">
-                                    <input type="text" class="form-control" placeholder=" Tìm kiếm">
-                                </div>
-                                <div
-                                    class="flex-wrap shop__list__wrapper d-flex flex-md-nowrap justify-content-between">
-                                    <p>Showing 1–12 of 40 results</p>
-                                    <div class="orderby__wrapper">
-                                        <span>Sort By</span>
-                                        <select class="shot__byselect">
-                                            <option>Default sorting</option>
-                                            <option>HeadPhone</option>
-                                            <option>Furniture</option>
-                                            <option>Jewellery</option>
-                                            <option>Handmade</option>
-                                            <option>Kids</option>
-                                        </select>
+                                    <input name="keyword" type="text" class="form-control" placeholder="Nhập tên, tác giả sách cần tìm ....">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-secondary" type="button">Tìm kiếm</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="tab__container">
-                            <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
-                                <div class="row">
-                                    <!-- Start Single Product -->
-                                    <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/1.jpg') }}"
-                                                    alt="product image"></a>
-                                            <a class="second__img animation1" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/2.jpg') }}"
-                                                    alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">BEST SALLER</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__content content--center">
-                                            <h4><a href="single-product.html">robin parrish</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>$35.00</li>
-                                                <li class="old_prize">$35.00</li>
-                                            </ul>
-                                            <div class="action">
-                                                <div class="actions_inner">
-                                                    <ul class="add_to_links">
-                                                        <li><a class="wishlist" href="wishlist.html"><i
-                                                                    class="bi bi-shopping-cart-full"></i></a></li>
-                                                        <li><a data-toggle="modal" title="Quick View"
-                                                                class="quickview modal-view detail-link"
-                                                                href="#productmodal"><i class="bi bi-search"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-                                    <!-- Start Single Product -->
-                                    <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/1.jpg') }}"
-                                                    alt="product image"></a>
-                                            <a class="second__img animation1" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/2.jpg') }}"
-                                                    alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">BEST SALLER</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__content content--center">
-                                            <h4><a href="single-product.html">robin parrish</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>$35.00</li>
-                                                <li class="old_prize">$35.00</li>
-                                            </ul>
-                                            <div class="action">
-                                                <div class="actions_inner">
-                                                    <ul class="add_to_links">
-                                                        <li><a class="wishlist" href="wishlist.html"><i
-                                                                    class="bi bi-shopping-cart-full"></i></a></li>
-                                                        <li><a data-toggle="modal" title="Quick View"
-                                                                class="quickview modal-view detail-link"
-                                                                href="#productmodal"><i class="bi bi-search"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-                                    <!-- Start Single Product -->
-                                    <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/1.jpg') }}"
-                                                    alt="product image"></a>
-                                            <a class="second__img animation1" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/2.jpg') }}"
-                                                    alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">BEST SALLER</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__content content--center">
-                                            <h4><a href="single-product.html">robin parrish</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>$35.00</li>
-                                                <li class="old_prize">$35.00</li>
-                                            </ul>
-                                            <div class="action">
-                                                <div class="actions_inner">
-                                                    <ul class="add_to_links">
-                                                        <li><a class="wishlist" href="wishlist.html"><i
-                                                                    class="bi bi-shopping-cart-full"></i></a></li>
-                                                        <li><a data-toggle="modal" title="Quick View"
-                                                                class="quickview modal-view detail-link"
-                                                                href="#productmodal"><i class="bi bi-search"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
-                                    <!-- Start Single Product -->
-                                    <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                        <div class="product__thumb">
-                                            <a class="first__img" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/1.jpg') }}"
-                                                    alt="product image"></a>
-                                            <a class="second__img animation1" href="single-product.html"><img
-                                                    src="{{ asset('assets/user/images/books/2.jpg') }}"
-                                                    alt="product image"></a>
-                                            <div class="hot__box">
-                                                <span class="hot-label">BEST SALLER</span>
-                                            </div>
-                                        </div>
-                                        <div class="product__content content--center">
-                                            <h4><a href="single-product.html">robin parrish</a></h4>
-                                            <ul class="prize d-flex">
-                                                <li>$35.00</li>
-                                                <li class="old_prize">$35.00</li>
-                                            </ul>
-                                            <div class="action">
-                                                <div class="actions_inner">
-                                                    <ul class="add_to_links">
-                                                        <li><a class="wishlist" href="wishlist.html"><i
-                                                                    class="bi bi-shopping-cart-full"></i></a></li>
-                                                        <li><a data-toggle="modal" title="Quick View"
-                                                                class="quickview modal-view detail-link"
-                                                                href="#productmodal"><i class="bi bi-search"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Single Product -->
+                            </form>
+                            <div class="flex-wrap shop__list__wrapper d-flex flex-md-nowrap justify-content-between">
+                                <p>Showing 1–12 of 40 results</p>
+                                <div class="orderby__wrapper">
+                                    <span>Sort By</span>
+                                    <select class="shot__byselect">
+                                        <option>Default sorting</option>
+                                        <option>HeadPhone</option>
+                                        <option>Furniture</option>
+                                        <option>Jewellery</option>
+                                        <option>Handmade</option>
+                                        <option>Kids</option>
+                                    </select>
                                 </div>
-                                <ul class="wn__pagination">
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
-                                </ul>
                             </div>
                         </div>
                     </div>
 
+                    <div class="tab__container">
+                        <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
+                            <div class="row draw-data">
+                                @if (count($books) !== 0)
+                                    @foreach ($books as $book)
+                                        <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="product__thumb">
+                                                <a class="first__img" href="javascript:;"><img
+                                                        src="{{ asset('assets/user/images/books/1.jpg') }}" alt="product image"></a>
+                                                @if ($book->sale !== 0)
+                                                    <div class="hot__box">
+                                                        <span class="hot-label">{{ $book->sale }} %</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="product__content content--center">
+                                                <h4><a href="single-product.html">{{ $book->title }}</a></h4>
+                                                <ul class="prize d-flex">
+                                                    <li>{{ number_format($book->price - $book->price * ($book->sale / 100), 3) }}</li>
+                                                    <li class="old_prize">{{ $book->price }}</li>
+                                                </ul>
+                                                <div class="action">
+                                                    <div class="actions_inner">
+                                                        <ul class="add_to_links">
+                                                            <li><a class="wishlist" onclick="addToCart({{ $book->id }})"><i
+                                                                        class="bi bi-shopping-cart-full"></i></a></li>
+                                                            <li><a title="Chi tiết"
+                                                                    class="quickview modal-view detail-link" href="{{ route('home.bookDetail', ['id' => $book->id]) }}">
+                                                                    <i class="bi bi-search"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- End --}}
+                                    @endforeach
+                                @else
+                                    <div>
+                                        <p>
+                                            Không tìm thấy kết quả nào phù hợp với từ khóa của bạn
+                                        </p>
+                                    </div>
+                                @endif
+                            </div>
+                            <ul class="wn__pagination">
+                                {{ $books->links() }}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- End Shop Page -->
+    </div>
+    <!-- End Shop Page -->
 @endsection()
 
 @section('js')
@@ -242,5 +137,98 @@
     <script src="{{ asset('assets/user/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/user/js/active.js') }}"></script>
-@endsection()
+    <script src="{{ asset('assets/admin/js/plugins/bootstrap-notify.js') }}"></script>
 
+    @routes
+    <script>
+        const addToCartAjax = id => {
+            return $.ajax({
+                method: 'get',
+                url: route('cart.addToCart', id),
+                contentType: 'application/json',
+                dataType: 'json'
+            });
+        };
+
+        const removeCartAjax = id => {
+            return $.ajax({
+                method: 'delete',
+                url: route('cart.removeCart', id),
+                contentType: 'application/json',
+                dataType: 'json'
+            });
+        };
+
+        const initCartAjax = id => {
+            return $.ajax({
+                method: 'get',
+                url: route('cart.initCart'),
+                contentType: 'application/json',
+                dataType: 'json'
+            });
+        };
+
+        const setData = data => {
+            $('#quantity').text(data.quantity)
+            $('#total').text(data.total)
+            const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
+            $('#list-cart').text('');
+            $.each(carts, (i, v) => {
+                $('#list-cart').append(
+                `<div class="item01 d-flex">
+                    <div class="thumb">
+                        <a href="product-details.html"><img
+                                src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
+                                alt="product images"></a>
+                    </div>
+                    <div class="content">
+                        <h6><a href="product-details.html">${v.name}</a></h6>
+                        <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                        <div class="product_prize d-flex justify-content-between">
+                            <ul class="d-flex justify-content-end">
+                                <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <br> `
+                );
+            });
+        };
+
+        const addToCart = id => {
+            addToCartAjax(id).done(result => {
+                drawCart();
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        const removeCart = id => {
+            removeCartAjax(id).done(result => {
+                console.log(result);
+                drawCart();
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        const drawCart = () => {
+            initCartAjax().done(data => {
+                setData(data);
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            drawCart();
+        });
+    </script>
+@endsection()

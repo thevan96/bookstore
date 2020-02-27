@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-4 col-7 col-lg-2">
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="{{ route('home.index')}}">
                         <img src="{{ asset('assets/user/images/logo/logo.png') }}" alt="logo images">
                     </a>
                 </div>
@@ -123,7 +123,7 @@
 
             <div class="col-md-8 col-sm-8 col-5 col-lg-2">
                 <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
-                    <li class="shopcart"><a class="cartbox_active" href="#"><span class="product_qun">3</span></a>
+                    <li class="shopcart"><a class="cartbox_active" href="#"><span class="product_qun" id="quantity"></span></a>
 
                         <!-- Start Shopping Cart -->
                         <div class="block-minicart minicart__active">
@@ -131,82 +131,16 @@
                                 <div class="micart__close">
                                     <span>close</span>
                                 </div>
-                                <div class="items-total d-flex justify-content-between">
-                                    <span>3 items</span>
-                                    <span>Cart Subtotal</span>
-                                </div>
                                 <div class="text-right total_amount">
-                                    <span>$66.00</span>
-                                </div>
-                                <div class="mini_action checkout">
-                                    <a class="checkout__btn" href="cart.html">Go to Checkout</a>
+                                    <span id="total"></span>
                                 </div>
                                 <div class="single__items">
-                                    <div class="miniproduct">
-                                        <div class="item01 d-flex">
-                                            <div class="thumb">
-                                                <a href="product-details.html"><img
-                                                        src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                                        alt="product images"></a>
-                                            </div>
-                                            <div class="content">
-                                                <h6><a href="product-details.html">Voyage Yoga Bag</a></h6>
-                                                <span class="prize">$30.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 01</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="#"><i class="zmdi zmdi-settings"></i></a>
-                                                        </li>
-                                                        <li><a href="#"><i class="zmdi zmdi-delete"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item01 d-flex mt--20">
-                                            <div class="thumb">
-                                                <a href="product-details.html"><img
-                                                        src="{{ asset('assets/user/images/product/sm-img/3.jpg') }}"
-                                                        alt="product images"></a>
-                                            </div>
-                                            <div class="content">
-                                                <h6><a href="product-details.html">Impulse Duffle</a></h6>
-                                                <span class="prize">$40.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 03</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="#"><i class="zmdi zmdi-settings"></i></a>
-                                                        </li>
-                                                        <li><a href="#"><i class="zmdi zmdi-delete"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item01 d-flex mt--20">
-                                            <div class="thumb">
-                                                <a href="product-details.html"><img
-                                                        src="{{ asset('assets/user/images/product/sm-img/2.jpg') }}"
-                                                        alt="product images"></a>
-                                            </div>
-                                            <div class="content">
-                                                <h6><a href="product-details.html">Compete Track Tote</a></h6>
-                                                <span class="prize">$40.00</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <span class="qun">Qty: 03</span>
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a href="#"><i class="zmdi zmdi-settings"></i></a>
-                                                        </li>
-                                                        <li><a href="#"><i class="zmdi zmdi-delete"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class= "miniproduct" data-spy="scroll" id="list-cart">
+                                        {{-- List item --}}
                                     </div>
                                 </div>
                                 <div class="mini_action cart">
-                                    <a class="cart__btn" href="cart.html">View and edit cart</a>
+                                    <a class="cart__btn" href="{{ route('cart.carts') }}">Xem và chỉnh sửa giỏ hàng</a>
                                 </div>
                             </div>
                         </div>

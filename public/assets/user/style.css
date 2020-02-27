@@ -1572,6 +1572,8 @@ Elements Styles
     border-width: 1px 0;
     margin: 20px -20px 0;
     overflow-x: auto;
+    height:300px;
+    overflow-y: scroll;
     padding: 15px; }
     .minicart-content-wrapper .single__items .miniproduct .item01 .thumb {
       flex-basis: 23%; }

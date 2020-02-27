@@ -16,7 +16,9 @@ class PublisherController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return response()->json(['data' => Publisher::all()]);
+            return response()->json(
+                ['data' => Publisher::all()]
+            );
         }
         return view('admin.publishers');
     }
@@ -35,19 +37,19 @@ class PublisherController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:publishers|max:30',
                 'address' => 'required',
-                'phone' => 'required|unique:publishers'
+                'phone' => 'required|unique:publishers',
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
-                    'warning' => $validator->errors()->all()
+                    'warning' => $validator->errors()->all(),
                 ]);
             }
 
             $process = Publisher::create($request->all());
             if ($process) {
                 return response()->json([
-                    'success' => 'Tạo mục nhà xuất bản thành công'
+                    'success' => 'Tạo mục nhà xuất bản thành công',
                 ]);
             }
             return response()->json(['error' => 'Lỗi tạo mục nhà xuất bản']);
@@ -80,19 +82,19 @@ class PublisherController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:publishers|max:30',
                 'address' => 'required',
-                'phone' => 'required'
+                'phone' => 'required',
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
-                    'warning' => $validator->errors()
+                    'warning' => $validator->errors(),
                 ]);
             }
 
             $process = $publisher->update($request->all());
             if ($process) {
                 return response()->json([
-                    'success' => 'Cập nhật nhà xuất bản thành công'
+                    'success' => 'Cập nhật nhà xuất bản thành công',
                 ]);
             }
             return response()->json(['error' => 'Lỗi cập nhật nhà xuất bản']);
@@ -112,7 +114,7 @@ class PublisherController extends Controller
 
             if ($process) {
                 return response()->json([
-                    'success' => 'Xóa nhà xuất bản thành công'
+                    'success' => 'Xóa nhà xuất bản thành công',
                 ]);
             }
             return response()->json(['error' => 'Lỗi xóa nhà xuất bản']);
