@@ -2,52 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Genre;
 use App\Book;
+use App\Genre;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index($idCategory = 0, Request $request)
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $books = $this->filter($idCategory);
-        $genres = Genre::withCount('books')->get();
-        $totalBook = Book::count();
-        return view('user.home', compact('genres', 'totalBook', 'books'));
+        /* $this->middleware('auth'); */
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        $genres = Genre::with('books')->get();
+        $books = Book::where('available_quantity', '>', '0')->paginate(9);
+        return view('user.home', compact('genres', 'books'));
+    }
+
+    public function genre($id)
+    {
+        $genres = Genre::with('books')->get();
+        $books = Genre::findOrFail($id)
+            ->books()
+            ->where('available_quantity', '>', '0')
+            ->paginate(9);
+        return view('user.home', compact('genres', 'books'));
     }
 
     public function search(Request $request)
     {
-        $genres = Genre::withCount('books')->get();
-        $totalBook = Book::count();
+        $genres = Genre::with('books')->get();
 
         $keyword = $request->input('keyword');
-        $books = Book::where('title', 'LIKE', "%{$keyword}%")
-            ->orWhere('author', 'LIKE', "%{$keyword}%")
-            ->orderBy('created_at', 'desc')
+
+        $books = Book::where('title', 'like', '%' . $keyword . '%')
+            ->orwhere('author', 'like', '%'.$keyword.'%')
             ->paginate(9);
-
-        return view('user.home', compact('genres', 'totalBook', 'books'));
+        return view('user.home', compact('genres', 'books'));
     }
 
-    public function filter($idCategory)
-    {
-        if (intval($idCategory) === 0) {
-            return Book::where('available_quantity', '>', '0')->paginate(9);
-        } else {
-            return Genre::findOrFail($idCategory)
-                ->books()
-                ->where('available_quantity', '>', '0')
-                ->paginate(9);
-        }
-    }
-
-    public function bookDetail($id)
+    public function show($id)
     {
         $book = Book::findOrFail($id);
-        return view('user.bookDetail', [
-            'book' => $book,
-            'genre' => $book->genre
-        ]);
+        $genre = $book->genre;
+        return view('user.bookDetail', compact('book', 'genre'));
+    }
+
+    public function cart()
+    {
+        return view('user.listCart');
     }
 }

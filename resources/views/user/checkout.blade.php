@@ -1,5 +1,5 @@
 @extends('user.layout')
-@section('title', 'Home')
+@section('title', 'Checkout')
 
 @section('css')
     <!-- Favicons -->
@@ -68,7 +68,7 @@
                                 @csrf
                                 <div class="input_box form-group">
                                     <label for="full_name">Họ và tên<span>*</span></label>
-                                    <input type="text" name="full_name" id="full_name"
+                                    <input type="text" name="full_name" id="full_name" value="{{ old('name') }}"
                                                                         class="form-control @error('full_name') is-invalid @enderror" size="50" value="">
                                     @error('full_name')
                                     <div class="invalid-feedback">

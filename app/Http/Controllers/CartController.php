@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Book;
+use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
@@ -82,10 +82,5 @@ class CartController extends Controller
                 'listCart' => Cart::content()
             ], 200);
         }
-    }
-
-    public function carts()
-    {
-        return view('user.carts');
     }
 }

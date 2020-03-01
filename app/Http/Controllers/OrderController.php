@@ -25,7 +25,7 @@ class OrderController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('order')
+            return redirect('order/index')
                 ->withErrors($validator)
                 ->withInput($request->all());
         }

@@ -36,9 +36,12 @@
                         <aside class="wedget__categories poroduct--cat">
                             <h3 class="wedget__title">Thể loại sách</h3>
                             <ul>
-                            <li><a href="{{ route('home.index')}}">Tất cả thể loại<span>({{ $totalBook }})</span></a></li>
+                                <li><a href="{{ route('home.index') }}">Tất cả thể loại</a></li>
                                 @foreach ($genres as $genre)
-                                <li><a href="{{ route('home.index', ['id' => $genre->id]) }}">{{ $genre->name }}<span>({{ $genre->books_count }})</span></a></li>
+                                    <li>
+                                        <a
+                                            href="{{ route('home.genre', ['id' => $genre->id]) }}">{{ $genre->name }}<span>({{ $genre->books->count() }})</span></a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </aside>
@@ -48,29 +51,17 @@
                 <div class="order-1 col-lg-9 col-12 order-lg-2">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form action="{{ route('home.search') }}" method="post">
-                                @csrf
+                            <form action="{{ route('home.search') }}" method="POST">
                                 <div class="mb-3 input-group">
-                                    <input name="keyword" type="text" class="form-control" placeholder="Nhập tên, tác giả sách cần tìm ....">
+                                    @csrf
+                                    <input name="keyword" type="text" class="form-control"
+                                        placeholder="Nhập tên, tác giả sách cần tìm ...." value="{{ old('keyword') }}">
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-secondary" type="button">Tìm kiếm</button>
+                                        <button type="submit" class="btn btn-outline-secondary" type="button">Tìm
+                                            kiếm</button>
                                     </div>
                                 </div>
                             </form>
-                            <div class="flex-wrap shop__list__wrapper d-flex flex-md-nowrap justify-content-between">
-                                <p>Showing 1–12 of 40 results</p>
-                                <div class="orderby__wrapper">
-                                    <span>Sort By</span>
-                                    <select class="shot__byselect">
-                                        <option>Default sorting</option>
-                                        <option>HeadPhone</option>
-                                        <option>Furniture</option>
-                                        <option>Jewellery</option>
-                                        <option>Handmade</option>
-                                        <option>Kids</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -92,7 +83,8 @@
                                             <div class="product__content content--center">
                                                 <h4><a href="single-product.html">{{ $book->title }}</a></h4>
                                                 <ul class="prize d-flex">
-                                                    <li>{{ number_format($book->price - $book->price * ($book->sale / 100), 3) }}</li>
+                                                    <li>{{ number_format($book->price - $book->price * ($book->sale / 100), 3) }}
+                                                    </li>
                                                     <li class="old_prize">{{ $book->price }}</li>
                                                 </ul>
                                                 <div class="action">
@@ -100,8 +92,8 @@
                                                         <ul class="add_to_links">
                                                             <li><a class="wishlist" onclick="addToCart({{ $book->id }})"><i
                                                                         class="bi bi-shopping-cart-full"></i></a></li>
-                                                            <li><a title="Chi tiết"
-                                                                    class="quickview modal-view detail-link" href="{{ route('home.bookDetail', ['id' => $book->id]) }}">
+                                                            <li><a title="Chi tiết" class="quickview modal-view detail-link"
+                                                                    href="{{ route('home.show', ['id' => $book->id]) }}">
                                                                     <i class="bi bi-search"></i></a>
                                                             </li>
                                                         </ul>
@@ -176,24 +168,24 @@
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
-                `<div class="item01 d-flex">
-                    <div class="thumb">
-                        <a href="product-details.html"><img
-                                src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                alt="product images"></a>
-                    </div>
-                    <div class="content">
-                        <h6><a href="product-details.html">${v.name}</a></h6>
-                        <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                        <div class="product_prize d-flex justify-content-between">
-                            <ul class="d-flex justify-content-end">
-                                <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                </li>
-                            </ul>
+                    `<div class="item01 d-flex">
+                        <div class="thumb">
+                            <a href="product-details.html"><img
+                                    src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
+                                    alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br> `
+                    <br> `
                 );
             });
         };
@@ -230,5 +222,6 @@
             });
             drawCart();
         });
+
     </script>
 @endsection()

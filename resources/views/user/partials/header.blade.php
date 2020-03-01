@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="mini_action cart">
-                                    <a class="cart__btn" href="{{ route('cart.carts') }}">Xem và chỉnh sửa giỏ hàng</a>
+                                    <a class="cart__btn" href="{{ route('home.cart') }}">Xem và chỉnh sửa giỏ hàng</a>
                                 </div>
                             </div>
                         </div>
