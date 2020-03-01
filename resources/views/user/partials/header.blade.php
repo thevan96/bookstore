@@ -12,7 +12,7 @@
 
             <div class="col-lg-8 d-none d-lg-block">
                 <nav class="mainmenu__nav">
-                    <ul class="meninmenu d-flex justify-content-start">
+                    {{-- <ul class="meninmenu d-flex justify-content-start">
                         <li class="drop with--one--item"><a href="index.html">Home</a></li>
                         <li class="drop"><a href="#">Shop</a>
                             <div class="megamenu mega03">
@@ -117,7 +117,7 @@
                             </div>
                         </li>
                         <li><a href="contact.html">Contact</a></li>
-                    </ul>
+                    </ul> --}}
                 </nav>
             </div>
 
@@ -177,20 +177,7 @@
 <!-- //Header -->
 
 <!-- Start Bradcaump area -->
-<div class="ht__bradcaump__area bg-image--6">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center bradcaump__inner">
-                    <h2 class="bradcaump-title">Shop Grid</h2>
-                    <nav class="bradcaump-content">
-                        <a class="breadcrumb_item" href="index.html">Home</a>
-                        <span class="brd-separetor">/</span>
-                        <span class="breadcrumb_item active">Shop Grid</span>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="ht__bradcaump__area img-fluid"style="background-image: url('https://www.rd.com/wp-content/uploads/2017/10/This-Is-How-Long-It-Takes-To-Read-The-Whole-Dictionary_509582812-Billion-Photos_FB-e1574101045824.jpg')
+; height:600px;">
 </div>
 <!-- End Bradcaump area -->

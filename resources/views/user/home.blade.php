@@ -36,7 +36,7 @@
                         <aside class="wedget__categories poroduct--cat">
                             <h3 class="wedget__title">Thể loại sách</h3>
                             <ul>
-                                <li><a href="{{ route('home.index') }}">Tất cả thể loại</a></li>
+                                <li><a href="{{ route('home.index') }}">Tất cả thể loại <span>{{ $total }}</span></a></li>
                                 @foreach ($genres as $genre)
                                     <li>
                                         <a
