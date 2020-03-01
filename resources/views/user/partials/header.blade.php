@@ -132,7 +132,7 @@
                                     <span>close</span>
                                 </div>
                                 <div class="text-right total_amount">
-                                    <span id="total"></span>
+                                    <span id="total-header"></span>
                                 </div>
                                 <div class="single__items">
                                     <div class= "miniproduct" data-spy="scroll" id="list-cart">

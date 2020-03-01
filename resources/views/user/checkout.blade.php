@@ -64,43 +64,62 @@
                     <div class="customer_details">
                         <h3>Chi tiết thanh toán</h3>
                         <div class="customar__field">
-                            <div class="margin_between">
-                                <div class="input_box space_between">
-                                    <label>Họ và tên<span>*</span></label>
-                                    <input type="text">
+                            <form method="post" action="{{ route('order.store') }}">
+                                @csrf
+                                <div class="input_box form-group">
+                                    <label for="full_name">Họ và tên<span>*</span></label>
+                                    <input type="text" name="full_name" id="full_name"
+                                                                        class="form-control @error('full_name') is-invalid @enderror" size="50" value="">
+                                    @error('full_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
-                            </div>
-                            <div class="input_box">
-                                <label>Thành phố</label>
-                                <select class="select__option">
-                                    <option>Select a country…</option>
-                                    <option>Afghanistan</option>
-                                    <option>American Samoa</option>
-                                    <option>Anguilla</option>
-                                    <option>American Samoa</option>
-                                    <option>Antarctica</option>
-                                    <option>Antigua and Barbuda</option>
-                                </select>
-                            </div>
-                            <div class="input_box">
-                                <label>Địa chỉ cụ thể</label>
-                                <input type="text" placeholder="Địa chỉ">
-                            </div>
-                            <div class="input_box">
-                                <textarea id="" name="" cols="60" rows="5" placeholder="Ghi chú khác"></textarea>
-                                {{-- <input type="text" placeholder="Apartment, suite, unit etc. (optional)"> --}}
-                            </div>
-                            <div class="margin_between">
-                                <div class="input_box space_between">
-                                    <label>Số điện thoại <span>*</span></label>
-                                    <input type="text">
+                                <div class="input_box form-group">
+                                    <label for="address">Địa chỉ nhận hàng<span>*</span></label>
+                                    <input type="text" name="address" id="address"
+                                        class="form-control @error('address') is-invalid @enderror" size="50">
+                                    @error('address')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
+                                <div class="input_box form-group">
+                                    <textarea class="form-control @error('notes') is-invalid @enderror" id="" name="notes"
+                                        cols="60" rows="5" placeholder="Ghi chú khác"></textarea>
+                                    @error('notes')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="margin_between form-group">
+                                    <div class="input_box space_between">
+                                        <label for="phone">Số điện thoại <span>*</span></label>
+                                        <input type="text" name="phone" id="phone"
+                                            class="form-control @error('phone') is-invalid @enderror" size="30">
+                                        @error('phone')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
 
-                                <div class="input_box space_between">
-                                    <label>Email <span>*</span></label>
-                                    <input type="email">
+                                    <div class="input_box space_between form-group">
+                                        <label for="email">Email <span>*</span></label>
+                                        <input type="email" name="email" id="email"
+                                            class="form-control @error('phone') is-invalid @enderror" size="30">
+                                        @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                                <button type="submit" class="btn btn-primary">Xác nhận đơn hàng</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -113,13 +132,12 @@
                         </ul>
                         <ul class="order_product">
                             {{-- Danh sach don hang --}}
-                            <li>Buscipit at magna × 1<span>$48.00</span></li>
-                            <li>Buscipit at magna × 1<span>$48.00</span></li>
-                            <li>Buscipit at magna × 1<span>$48.00</span></li>
-                            <li>Buscipit at magna × 1<span>$48.00</span></li>
+                            @foreach (Cart::content() as $cart)
+                                <li>{{ $cart->name }} x {{ $cart->qty }}<span>{{ $cart->price * $cart->qty }}</span></li>
+                            @endforeach
                         </ul>
                         <ul class="total__amount">
-                            <li>Tổng giá trị đơn hàng <span>$223.00</span></li>
+                            <li>Tổng giá trị đơn hàng <span>{{ Cart::total() }}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -167,38 +185,31 @@
 
         const setData = data => {
             $('#quantity').text(data.quantity)
-            $('#total').text(data.total)
+            $('#total-header').text(data.total)
+
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                        <div class="thumb">
-                            <a href="product-details.html"><img
-                                    src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                    alt="product images"></a>
-                        </div>
-                        <div class="content">
-                            <h6><a href="product-details.html">${v.name}</a></h6>
-                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                            <div class="product_prize d-flex justify-content-between">
-                                <ul class="d-flex justify-content-end">
-                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <br> `
+                                    <div class="thumb">
+                                        <a href="product-details.html"><img
+                                                src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
+                                                alt="product images"></a>
+                                    </div>
+                                    <div class="content">
+                                        <h6><a href="product-details.html">${v.name}</a></h6>
+                                        <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                                        <div class="product_prize d-flex justify-content-between">
+                                            <ul class="d-flex justify-content-end">
+                                                <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br> `
                 );
-            });
-        };
-
-        const addToCart = id => {
-            addToCartAjax(id).done(result => {
-                drawCart();
-            }).fail((jqXHR, textStatus, errorThrown) => {
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
 

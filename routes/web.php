@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::get('/', function () {
+    return redirect('home');
+});
 
 Route::get('/home/{id?}', 'HomeController@index')->name('home.index');
 Route::post('/home/search', 'HomeController@search')->name('home.search');
@@ -23,10 +26,13 @@ Route::get('cart', 'CartController@initCart')->name('cart.initCart');
 Route::get('carts', 'CartController@carts')->name('cart.carts');
 Route::put('carts/{rowId}', 'CartController@update')->name('cart.update');
 
-Route::get('order', 'OrderController@index')->name('order.index');
+Route::group(['prefix' => 'order'], function () {
+  Route::get('/','OrderController@index')->name('order.index');
+  Route::post('/create','OrderController@store')->name('order.store');
+});
 
 Route::prefix('admin')->group(function () {
-    Route::resource('genres', 'GenreController')->only([
+    Route::resource('genres', 'GenreControler')->only([
         'index',
         'store',
         'show',

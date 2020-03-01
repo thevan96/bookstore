@@ -10,4 +10,9 @@ class Book extends Model
     {
         return $this->belongsTo('App\Genre');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany('App\Order')->withTimestamps();
+    }
 }

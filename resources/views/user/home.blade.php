@@ -170,8 +170,9 @@
 
         const setData = data => {
             $('#quantity').text(data.quantity)
-            $('#total').text(data.total)
+            $('#total-header').text(data.total)
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
+
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
@@ -207,7 +208,6 @@
 
         const removeCart = id => {
             removeCartAjax(id).done(result => {
-                console.log(result);
                 drawCart();
             }).fail((jqXHR, textStatus, errorThrown) => {
                 console.log(textStatus + ': ' + errorThrown);
