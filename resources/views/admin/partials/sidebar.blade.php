@@ -18,9 +18,9 @@
         </a>
     </li>
     <li>
-        <a href="">
-            <i class="nc-icon nc-badge"></i>
-            <p>Khách hàng</p>
+        <a href="{{ route('books.index') }}">
+            <i class="nc-icon nc-book-bookmark"></i>
+            <p>Sách</p>
         </a>
     </li>
     <li>
@@ -36,15 +36,12 @@
         </a>
     </li>
     <li>
-        <a href="">
-            <i class="nc-icon nc-book-bookmark"></i>
-            <p>Sách</p>
-        </a>
-    </li>
-    <li>
-        <a href="">
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="nc-icon nc-minimal-right"></i>
             <p>Đăng xuất</p>
         </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
     </li>
 </ul>

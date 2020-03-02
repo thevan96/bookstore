@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -11,9 +12,14 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            return response()->json([
+                'data' => Book::all()
+            ]);
+        }
+        return view('admin.books');
     }
 
     /**
@@ -23,7 +29,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.createBook');
     }
 
     /**
@@ -80,12 +86,5 @@ class BookController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Search book by name, author
-     */
-    public function search()
-    {
     }
 }

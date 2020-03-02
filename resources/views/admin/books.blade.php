@@ -1,5 +1,4 @@
-@extends('admin.layout')
-@section('title', 'Danh mục sách')
+@extends('admin.layout') @section('title', 'Sách')
 @section('css')
     <!-- Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -16,10 +15,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Danh mục sách</h4>
+                    <h4 class="card-title">Sách</h4>
                 </div>
                 <div class="card-body">
-                    <a href="javascript:;" class="btn btn-info" onclick="createGenre()"> Tạo mới danh mục</a>
+                    <a href="{{ route('books.create') }}" class="btn btn-info">Thêm sách mới</a>
                     <div class="table-responsive">
                         <table class="table">
                         </table>
@@ -29,31 +28,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal_genre" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group col">
-                        <input type="hidden" id="genre_id" value="-1">
-                        <label for="genre_name">Tên danh mục</label>
-                        <input type="text" class="form-control" id="genre_name" placeholder="Tên danh mục">
-                        <div id="genre_name_error"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveGenre()">Lưu</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection()
 @section('js')
     <!--   Core JS Files   -->
@@ -62,8 +36,8 @@
     <script src="{{ asset('assets/admin/js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins/perfect-scrollbar.jquery.min.js') }}></script>
 
-    <!--  Google Maps Plugin    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+        <!--  Google Maps Plugin    -->
+        <script src=" https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Chart JS -->
     <script src="{{ asset('assets/admin/js/plugins/chartjs.min.js') }}"></script>
@@ -149,7 +123,7 @@
 
         const createGenre = () => {
             resetData();
-            $('.modal-title').text('Tạo mới danh mục sách');
+            $('.modal-title').text('Thêm sách mới');
             $('#genre_name').attr('placeholder', 'Tên danh mục sách');
             $('#modal_genre').modal('show');
         };
@@ -182,7 +156,11 @@
                         deleteGenreAjax(id).done(result => {
                             $('#modal_genre').modal('hide');
                             drawTable();
-                            $.notify({message: result.success }, {type: 'success'});
+                            $.notify({
+                                message: result.success
+                            }, {
+                                type: 'success'
+                            });
                         }).fail((jqXHR, textStatus, errorThrown) => {
                             console.log(textStatus + ': ' + errorThrown);
                         });
@@ -202,7 +180,11 @@
                         resetValidated();
                         $('#modal_genre').modal('hide');
                         drawTable();
-                        $.notify({message: result.success }, {type: 'success'});
+                        $.notify({
+                            message: result.success
+                        }, {
+                            type: 'success'
+                        });
                     }
                 }).fail((jqXHR, textStatus, errorThrown) => {
                     console.log(textStatus + ': ' + errorThrown);
@@ -215,7 +197,11 @@
                         resetValidated();
                         $('#modal_genre').modal('hide');
                         drawTable();
-                        $.notify({message: result.success }, {type: 'success'});
+                        $.notify({
+                            message: result.success
+                        }, {
+                            type: 'success'
+                        });
                     }
                 }).fail((jqXHR, textStatus, errorThrown) => {
                     console.log(textStatus + ': ' + errorThrown);
@@ -225,15 +211,34 @@
 
         const drawTable = () => {
             $('table').DataTable({
-                ajax: route('genres.index'),
-                columns: [
-                    {
+                ajax: route('books.index'),
+                columns: [{
                         'data': 'id',
-                        'title': 'Id',
+                        'title': 'Id'
                     },
                     {
-                        'data': 'name',
-                        'title': 'Tên danh mục'
+                        'data': 'title',
+                        'title': 'Tên sách'
+                    },
+                    {
+                        'data': 'author',
+                        'title': 'Tác giả'
+                    },
+                    {
+                        'data': 'description',
+                        'title': 'Mô tả'
+                    },
+                    {
+                        'data': 'available_quantity',
+                        'title': 'Số lượng'
+                    },
+                    {
+                        'data': 'sale',
+                        'title': 'Giảm giá'
+                    },
+                    {
+                        'data': 'price',
+                        'title': 'Giá tiền'
                     },
                     {
                         'data': 'created_at',

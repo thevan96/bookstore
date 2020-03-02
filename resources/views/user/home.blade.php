@@ -217,7 +217,8 @@
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                     'Access-Control-Allow-Origin': 'https://app-book-store.herokuapp.com/'
                 }
             });
             drawCart();

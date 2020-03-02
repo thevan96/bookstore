@@ -152,19 +152,31 @@
                             <div class="content-inner">
                                 <div class="switcher-currency">
                                     <strong class="label switcher-label">
-                                        <span>My Account</span>
+                                        <span>Tài khoản</span>
                                     </strong>
+                                    @guest
                                     <div class="switcher-options">
                                         <div class="switcher-currency-trigger">
                                             <div class="setting__menu">
-                                                <span><a href="#">Compare Product</a></span>
-                                                <span><a href="#">My Account</a></span>
-                                                <span><a href="#">My Wishlist</a></span>
-                                                <span><a href="#">Sign In</a></span>
-                                                <span><a href="#">Create An Account</a></span>
+                                                <span><a href="{{ route('login') }}">Đăng nhập</a></span>
+                                                <span><a href="{{ route('register') }}">Tạo tài khoản</a></span>
                                             </div>
                                         </div>
                                     </div>
+                                    @endguest
+                                    @auth
+                                    <div class="switcher-options">
+                                        <div class="switcher-currency-trigger">
+                                            <div class="setting__menu">
+                                                <span><a href="#">Thông tin cá nhân</a></span>
+                                                <span><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a></span>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                    {{ csrf_field() }}
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endauth
                                 </div>
                             </div>
                         </div>

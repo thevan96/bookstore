@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *

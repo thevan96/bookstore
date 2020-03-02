@@ -38,9 +38,6 @@ Route::prefix('order')->group(function () {
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return redirect()->action('GenreController@index');
-    });
 
     Route::resource('genres', 'GenreController')->only([
         'index',
@@ -56,5 +53,14 @@ Route::prefix('admin')->group(function () {
         'show',
         'update',
         'destroy'
-    ]);
+    ])->middleware('auth');
+
+    Route::resource('books', 'BookController')->only([
+        'index',
+        'create',
+        'store',
+        'show',
+        'update',
+        'destroy'
+    ])->middleware('auth');
 });
