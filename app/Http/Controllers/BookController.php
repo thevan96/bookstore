@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Publisher;
+use App\Genre;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -29,7 +33,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.createBook');
+        $genres = Genre::all();
+        $publishers = Publisher::all();
+        return view('admin.createBook', compact('genres', 'publishers'));
     }
 
     /**
@@ -40,7 +46,30 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'author' => 'required',
+            'genre_id' => 'required',
+            'publisher_id' => 'required',
+            'description' => 'required',
+            'available_quantity' => 'required',
+            'publication_date' => 'required',
+            'price' => 'required',
+            'sale' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/books/create')
+                ->withErrors($validator)
+                ->withInput($request->all());
+        }
+
+        $process = Book::create($request->all());
+        if ($process) {
+            Session::flash('success', 'Tạo sách mới thành công');
+        }
+
+        return redirect()->route('books.index');
     }
 
     /**
@@ -74,7 +103,30 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'author' => 'required',
+            'genre_id' => 'required',
+            'publisher_id' => 'required',
+            'description' => 'required',
+            'available_quantity' => 'required',
+            'publication_date' => 'required',
+            'price' => 'required',
+            'sale' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/books/create')
+                ->withErrors($validator)
+                ->withInput($request->all());
+        }
+
+        $process = Book::create($request->all());
+        if ($process) {
+            Session::flash('success', 'Tạo sách mới thành công');
+        }
+
+        return redirect()->route('books.index');
     }
 
     /**
@@ -83,8 +135,18 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $book = Book::findOrFail($id);
+            $process = $book->delete();
+
+            if ($process) {
+                return response()->json([
+                    'success' => 'Xóa sách thành công'
+                ]);
+            }
+            return response()->json(['error' => 'Lỗi xóa sách']);
+        }
     }
 }

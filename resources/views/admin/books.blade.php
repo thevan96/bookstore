@@ -112,10 +112,10 @@
             });
         };
 
-        const deleteGenreAjax = id => {
+        const deleteBookAjax = id => {
             return $.ajax({
                 method: 'delete',
-                url: route('genres.destroy', id),
+                url: route('books.destroy', id),
                 contentType: 'application/json',
                 dataType: 'json'
             });
@@ -138,7 +138,7 @@
             $('#modal_genre').modal('show');
         };
 
-        const deleteGenre = id => {
+        const deleteBook = id => {
             bootbox.confirm({
                 message: "Bạn có thực sự muốn xóa danh mục này ?",
                 buttons: {
@@ -153,8 +153,7 @@
                 },
                 callback: function(result) {
                     if (result) {
-                        deleteGenreAjax(id).done(result => {
-                            $('#modal_genre').modal('hide');
+                        deleteBookAjax(id).done(result => {
                             drawTable();
                             $.notify({
                                 message: result.success
@@ -225,10 +224,6 @@
                         'title': 'Tác giả'
                     },
                     {
-                        'data': 'description',
-                        'title': 'Mô tả'
-                    },
-                    {
                         'data': 'available_quantity',
                         'title': 'Số lượng'
                     },
@@ -253,7 +248,7 @@
                         render: function(data, type, row, meta) {
                             return `
                                 <a href='javascript:;' title='Chỉnh sửa' onclick='updateGenre(${row.id})' <i class='fa fa-edit'></i></a>
-                                <a href='javascript:;' title='Xóa' onclick='deleteGenre(${row.id})' <i class='fa fa-trash'></i></a>`;
+                                <a href='javascript:;' title='Xóa' onclick='deleteBook(${row.id})' <i class='fa fa-trash'></i></a>`;
                         }
                     }
                 ],

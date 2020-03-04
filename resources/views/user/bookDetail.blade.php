@@ -72,7 +72,7 @@
 	                        	<!-- Start Single Tab Content -->
 	                        	<div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
 									<div class="description__attribute">
-                                        {{ $book->description }}
+                                        {!! $book->description !!}
 									</div>
 	                        	</div>
 	                        	<!-- End Single Tab Content -->

@@ -11,13 +11,11 @@
 |
  */
 Auth::routes();
-Route::get('login1', function () {
-    return view('auth.login');
-});
+
 Route::prefix('')->group(function () {
     Route::get('/cart', 'HomeController@cart')->name('home.cart');
     Route::get('/{id?}', 'HomeController@index')->name('home.index');
-    Route::get('/{id}', 'HomeController@show')->name('home.show');
+    Route::get('/detail/{id}', 'HomeController@show')->name('home.show');
     Route::get('/genre/{id}', 'HomeController@genre')->name('home.genre');
     Route::post('/search', 'HomeController@search')->name('home.search');
 });
