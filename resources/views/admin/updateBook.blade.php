@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('title', 'Thêm sách mới')
+@section('title', 'Cập nhật sách')
 @section('css')
     <!-- Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -22,19 +22,20 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Sách mới</h4>
+                    <h4 class="card-title">Cập nhật thông tin sách</h4>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ route('books.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('books.update', $book->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method("PUT")
                 <div class="form-group">
                     <label for="title">Tên sách <span>*</span></label>
                     <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
-                        placeholder="Tiêu đề sách" value="{{ old('title') }}">
+                        placeholder="Tiêu đề sách" value="{{ old('title', $book->title) }}">
                     @error('title')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -45,7 +46,7 @@
                 <div class="form-group">
                     <label for="telephone">Tác giả <span>*</span></label>
                     <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author"
-                        placeholder="Tác giả ..." value="{{ old('author') }}">
+                        placeholder="Tác giả ..." value="{{ old('author', $book->author) }}">
                     @error('author')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -59,7 +60,8 @@
                         name="genre_id">
                         <option value="">-- Chọn thể loại --</option>
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ old('genre_id') === strval($genre->id) ? 'selected' : '' }}>
+                            <option value="{{ old('genre_id', $genre->id) }}"
+                                {{ $book->genre->id === $genre->id ? 'selected' : '' }}>
                                 {{ $genre->name }} </option>
                         @endforeach
                     </select>
@@ -74,10 +76,10 @@
                     <label for="publisher_id">Nhà xuất bản <span>*</span></label>
                     <select class="custom-select form-control @error('publisher_id') is-invalid @enderror" id="publisher_id"
                         name="publisher_id">
-                        <option value="{{ old('publisher_id') }}">-- Chọn nhà xuất bản --</option>
+                        <option value="">-- Chọn nhà xuất bản --</option>
                         @foreach ($publishers as $publisher)
-                            <option value="{{ $publisher->id }}"
-                                {{ old('publisher_id') === strval($publisher->id) ? 'selected' : '' }}>{{ $publisher->name }}
+                            <option value="{{ old('publisher_id', $publisher->id) }}"
+                                {{ $book->publisher->id === $publisher->id ? 'selected' : '' }}>{{ $publisher->name }}
                             </option>
                         @endforeach
                     </select>
@@ -92,8 +94,8 @@
                 <div class="form-group">
                     <label for="description">Mô tả về sách</label>
                     <textarea name="description" id="description"
-                        class="form-control @error('description') is-invalid @enderror">
-                    {{ old('description') }}
+                        class="form-control @error('description') is-invalid @enderror"> {{ old('description') }}
+                    {{ old('description', $book->description) }}
                     </textarea>
                     <script>
                         CKEDITOR.replace('description');
@@ -110,7 +112,7 @@
 
                 <div>
                     <label for="image">Ảnh bìa sách <span>*</span></label><br>
-                    <image src="https://fakeimg.pl/270x340/" style="width: 270px; height: 340px;" alt="image for book"
+                    <image src="{{ old('image', $book->image) }}" style="width: 270px; height: 340px;" alt="image for book"
                         class="form-control @error('image') is-invalid @enderror" id="image-preview" name="image-preview">
                     </image><br>
                     <br>
@@ -127,7 +129,7 @@
                     <label for="publication_date">Ngày xuất bản <span>*</span></label>
                     <input id="publisher_date" type="date" name="publication_date"
                         class="form-control @error('publication_date') is-invalid @enderror"
-                        value="{{ old('publication_date') }}">
+                        value="{{ old('publication_date', $book->publication_date) }}">
                     @error('publication_date')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -139,7 +141,7 @@
                     <label for="available_quantity">Số lượng<span>*</span></label>
                     <input type="number" name="available_quantity"
                         class="form-control @error ('available_quantity') is-invalid @enderror" id="available_quantity"
-                        placeholder="Số lượng sách" {{ old('availabe_quantity') }}>
+                        placeholder="Số lượng sách" value="{{ old('available_quantity', $book->available_quantity) }}">
                     @error('available_quantity')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -150,7 +152,7 @@
                 <div class="form-group">
                     <label for="price">Giá bán <span>*</span></label>
                     <input type="number" class="form-control @error ('price') is-invalid @enderror" id="price"
-                        placeholder="Giá bán sách (vnd)" name="price" value="{{ old('price') }}">
+                        placeholder="Giá bán sách (vnd)" name="price" value="{{ old('price', $book->price) }}">
                     @error('price')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -161,7 +163,7 @@
                 <div class="form-group">
                     <label for="price">Tỉ lệ giảm giá <span>*</span> </label>
                     <input type="number" class="form-control @error ('sale') is-invalid @enderror" id="sale"
-                        placeholder="Tỉ lệ giảm giá (%)" name="sale" value="{{ old('sale') }}">
+                        placeholder="Tỉ lệ giảm giá (%)" name="sale" value="{{ old('sale', $book->sale) }}">
                     @error('sale')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -189,7 +191,7 @@
     <script src="{{ asset('assets/admin/js/plugins/perfect-scrollbar.jquery.min.js') }}></script>
 
     <!-- Chart JS -->
-    <script src=" {{ asset('assets/admin/js/plugins/chartjs.min.js') }}"></script>
+    <script src=" {{ asset('assets/admin/js/plugins/chartjs.min.js') }}"> </script>
 
     <!--  Notifications Plugin    -->
     <script src="{{ asset('assets/admin/js/plugins/bootstrap-notify.js') }}"></script>

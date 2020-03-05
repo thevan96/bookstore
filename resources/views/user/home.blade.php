@@ -1,7 +1,9 @@
 @extends('user.layout')
+
 @section('title', 'Home')
 
 @section('css')
+
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{ asset('assets/user/images/favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/user/images/icon.png') }}">
@@ -72,8 +74,9 @@
                                     @foreach ($books as $book)
                                         <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="product__thumb">
-                                                <a class="first__img" href="javascript:;"><img
-                                                        src="{{ asset('assets/user/images/books/1.jpg') }}" alt="product image"></a>
+                                                <a class="first__img" href="javascript:;" style="width: 270px; height: 340px;">
+                                                    <img src="{{ $book->image }}" alt="product image">
+                                                </a>
                                                 @if ($book->sale !== 0)
                                                     <div class="hot__box">
                                                         <span class="hot-label">{{ $book->sale }} %</span>
@@ -165,27 +168,29 @@
             $('#total-header').text(data.total)
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
 
+            console.log(carts);
+
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                        <div class="thumb">
-                            <a href="product-details.html"><img
-                                    src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                    alt="product images"></a>
-                        </div>
-                        <div class="content">
-                            <h6><a href="product-details.html">${v.name}</a></h6>
-                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                            <div class="product_prize d-flex justify-content-between">
-                                <ul class="d-flex justify-content-end">
-                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                    </li>
-                                </ul>
+                                <div class="thumb">
+                                    <a href="product-details.html"><img
+                                            src="${v.options.image}"
+                                            alt="product images"></a>
+                                </div>
+                                <div class="content">
+                                    <h6><a href="product-details.html">${v.name}</a></h6>
+                                    <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                                    <div class="product_prize d-flex justify-content-between">
+                                        <ul class="d-flex justify-content-end">
+                                            <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <br> `
+                            <br> `
                 );
             });
         };
@@ -214,11 +219,19 @@
             });
         };
 
+        @if(Session::has('success'))
+            $.notify({
+                message: '{{ Session::get('success') }}'
+            }, {
+                type: 'success'
+            });
+        @endif
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                     'Access-Control-Allow-Origin': 'https://app-book-store.herokuapp.com/'
+                    'Access-Control-Allow-Origin': 'https://app-book-store.herokuapp.com/'
                 }
             });
             drawCart();

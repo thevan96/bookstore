@@ -46,12 +46,16 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
             'title' => 'required',
             'author' => 'required',
             'genre_id' => 'required',
             'publisher_id' => 'required',
             'description' => 'required',
+            'image' => 'required',
             'available_quantity' => 'required',
             'publication_date' => 'required',
             'price' => 'required',
@@ -64,7 +68,12 @@ class BookController extends Controller
                 ->withInput($request->all());
         }
 
-        $process = Book::create($request->all());
+        if ($request->hasFile('image')) {
+            $image = base64_encode(file_get_contents($request->file('image')));
+            $input['image'] = 'data:image/png;base64,'.$image;
+        }
+
+        $process = Book::create($input);
         if ($process) {
             Session::flash('success', 'Tạo sách mới thành công');
         }
@@ -91,7 +100,10 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $genres = Genre::all();
+        $publishers= Publisher::all();
+        $book = Book::findOrFail($id);
+        return view('admin.updateBook',compact('book', 'genres', 'publishers'));
     }
 
     /**
@@ -101,14 +113,21 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Book $book, Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $input = $request->all();
+
+        if (!$request->hasFile('image')) {
+            $input['image'] = $book->image;
+        }
+
+        $validator = Validator::make($input, [
             'title' => 'required',
             'author' => 'required',
             'genre_id' => 'required',
             'publisher_id' => 'required',
             'description' => 'required',
+            'image' => 'required',
             'available_quantity' => 'required',
             'publication_date' => 'required',
             'price' => 'required',
@@ -116,14 +135,19 @@ class BookController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/books/create')
+            return redirect("admin/books/$book->id/edit")
                 ->withErrors($validator)
                 ->withInput($request->all());
         }
 
-        $process = Book::create($request->all());
+        if ($request->hasFile('image')) {
+            $image = base64_encode(file_get_contents($request->file('image')));
+            $input['image'] = 'data:image/png;base64,'.$image;
+        }
+
+        $process =  $book->update($input);
         if ($process) {
-            Session::flash('success', 'Tạo sách mới thành công');
+            Session::flash('success', 'Cập nhật sách thành công');
         }
 
         return redirect()->route('books.index');

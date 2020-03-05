@@ -28,85 +28,92 @@
 @section('content')
     <!-- Start Shop Page -->
     <div class="maincontent bg--white pt--80 pb--55">
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-lg-9 col-12">
-        				<div class="wn__single__product">
-        					<div class="row">
-        						<div class="col-lg-6 col-12">
-        							<div class="wn__fotorama__wrapper">
-	        							<div class="fotorama wn__fotorama__action" data-nav="thumbs">
-                                              <a href="1.jpg"><img src="{{ asset('assets/user/images/product/1.jpg') }}" alt=""></a>
-	        							</div>
-        							</div>
-        						</div>
-        						<div class="col-lg-6 col-12">
-        							<div class="product__info__main">
-                                        <h1>{{ $book->title }}</h1>
-        								<div class="price-box">
-                                            <span>{{ $book->price }}</span>
-        								</div>
-										<div class="product__overview">
-                                            <h1>Tác giả</h1>
-                                            <p>{{ $book->author }}</p>
-        								</div>
-        								<div class="box-tocart d-flex">
-        									<div class="addtocart__actions">
-        										<button class="tocart" onclick="addToCart({{ $book->id }})" title="Add to Cart">Thêm vào giỏ hàng</button>
-        									</div>
-        								</div>
-										<div class="product_meta">
-											<span class="posted_in">Thể loại :
-                                                <a href="javascript:;">{{ $genre->name }}</a>
-											</span>
-										</div>
-        							</div>
-        						</div>
-        					</div>
-        				</div>
-        				<div class="product__info__detailed">
-							<div class="pro_details_nav nav justify-content-start" role="tablist">
-	                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Details</a>
-	                        </div>
-	                        <div class="tab__container">
-	                        	<!-- Start Single Tab Content -->
-	                        	<div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
-									<div class="description__attribute">
-                                        {!! $book->description !!}
-									</div>
-	                        	</div>
-	                        	<!-- End Single Tab Content -->
-	                        </div>
-        				</div>
-        			</div>
-        			{{-- <div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
-        				<div class="shop__sidebar">
-        					<aside class="wedget__categories poroduct--cat">
-        						<h3 class="wedget__title">Product Categories</h3>
-        						<ul>
-        							<li><a href="#">Biography <span>(3)</span></a></li>
-        							<li><a href="#">Business <span>(4)</span></a></li>
-        							<li><a href="#">Cookbooks <span>(6)</span></a></li>
-        							<li><a href="#">Health & Fitness <span>(7)</span></a></li>
-        							<li><a href="#">History <span>(8)</span></a></li>
-        							<li><a href="#">Mystery <span>(9)</span></a></li>
-        							<li><a href="#">Inspiration <span>(13)</span></a></li>
-        							<li><a href="#">Romance <span>(20)</span></a></li>
-        							<li><a href="#">Fiction/Fantasy <span>(22)</span></a></li>
-        							<li><a href="#">Self-Improvement <span>(13)</span></a></li>
-        							<li><a href="#">Humor Books <span>(17)</span></a></li>
-        							<li><a href="#">Harry Potter <span>(20)</span></a></li>
-        							<li><a href="#">Land of Stories <span>(34)</span></a></li>
-        							<li><a href="#">Kids' Music <span>(60)</span></a></li>
-        							<li><a href="#">Toys & Games <span>(3)</span></a></li>
-        							<li><a href="#">hoodies <span>(3)</span></a></li>
-        						</ul>
-        					</aside>
-        				</div>
-        			</div> --}}
-        		</div>
-        	</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="wn__single__product">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <div class="wn__fotorama__wrapper">
+                                    <div class="fotorama wn__fotorama__action" data-nav="thumbs">
+                                        <a href="1.jpg"><img src="{{ $book->image }}"
+                                                alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="product__info__main">
+                                    <h1>{{ $book->title }}</h1>
+                                    <div class="price-box">
+                                        <span>{{ $book->price }}</span>
+                                    </div>
+                                    <div class="product__overview">
+                                        <h1>Tác giả</h1>
+                                        <p>{{ $book->author }}</p>
+                                    </div>
+                                    <div class="box-tocart d-flex">
+                                        <div class="addtocart__actions">
+                                            <button class="tocart" onclick="addToCart({{ $book->id }})"
+                                                title="Add to Cart">Thêm vào giỏ hàng</button>
+                                        </div>
+                                    </div>
+                                    <div class="product_meta">
+                                        <span class="posted_in">Thể loại :
+                                            <a href="javascript:;">{{ $genre->name }}</a>
+                                        </span>
+                                    </div>
+                                    <div class="product_meta">
+                                        <span class="posted_in">Ngày xuất bản :
+                                            <a href="javascript:;">{{ $book->publication_date }}</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product__info__detailed">
+                        <div class="pro_details_nav nav justify-content-start" role="tablist">
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Details</a>
+                        </div>
+                        <div class="tab__container">
+                            <!-- Start Single Tab Content -->
+                            <div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
+                                <div class="description__attribute">
+                                    {!! $book->description !!}
+                                </div>
+                            </div>
+                            <!-- End Single Tab Content -->
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-lg-3 col-12 md-mt-40 sm-mt-40"> --}}
+                {{--     <div class="shop__sidebar"> --}}
+                {{--         <aside class="wedget__categories poroduct--cat"> --}}
+                {{--             <h3 class="wedget__title">Product Categories</h3> --}}
+                {{--             <ul> --}}
+                {{--                 <li><a href="#">Biography <span>(3)</span></a></li> --}}
+                {{--                 <li><a href="#">Business <span>(4)</span></a></li> --}}
+                {{--                 <li><a href="#">Cookbooks <span>(6)</span></a></li> --}}
+                {{--                 <li><a href="#">Health & Fitness <span>(7)</span></a></li> --}}
+                {{--                 <li><a href="#">History <span>(8)</span></a></li> --}}
+                {{--                 <li><a href="#">Mystery <span>(9)</span></a></li> --}}
+                {{--                 <li><a href="#">Inspiration <span>(13)</span></a></li> --}}
+                {{--                 <li><a href="#">Romance <span>(20)</span></a></li> --}}
+                {{--                 <li><a href="#">Fiction/Fantasy <span>(22)</span></a></li> --}}
+                {{--                 <li><a href="#">Self-Improvement <span>(13)</span></a></li> --}}
+                {{--                 <li><a href="#">Humor Books <span>(17)</span></a></li> --}}
+                {{--                 <li><a href="#">Harry Potter <span>(20)</span></a></li> --}}
+                {{--                 <li><a href="#">Land of Stories <span>(34)</span></a></li> --}}
+                {{--                 <li><a href="#">Kids' Music <span>(60)</span></a></li> --}}
+                {{--                 <li><a href="#">Toys & Games <span>(3)</span></a></li> --}}
+                {{--                 <li><a href="#">hoodies <span>(3)</span></a></li> --}}
+                {{--             </ul> --}}
+                {{--         </aside> --}}
+                {{--     </div> --}}
+                {{-- </div> --}}
+            </div>
         </div>
+    </div>
     <!-- End Shop Page -->
 @endsection()
 
@@ -154,24 +161,24 @@
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
-                `<div class="item01 d-flex">
-                    <div class="thumb">
-                        <a href="product-details.html"><img
-                                src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                alt="product images"></a>
-                    </div>
-                    <div class="content">
-                        <h6><a href="product-details.html">${v.name}</a></h6>
-                        <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
-                        <div class="product_prize d-flex justify-content-between">
-                            <ul class="d-flex justify-content-end">
-                                <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                </li>
-                            </ul>
+                    `<div class="item01 d-flex">
+                        <div class="thumb">
+                            <a href="product-details.html"><img
+                                    src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
+                                    alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br> `
+                    <br> `
                 );
             });
         };
@@ -209,5 +216,6 @@
             });
             drawCart();
         });
+
     </script>
 @endsection()

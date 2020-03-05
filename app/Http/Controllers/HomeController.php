@@ -29,6 +29,7 @@ class HomeController extends Controller
         $books = Genre::findOrFail($id)
             ->books()
             ->where('available_quantity', '>', '0')
+            ->orderBy('created_at', 'desc')
             ->paginate(9);
         return view('user.home', compact('genres', 'books', 'total'));
     }
@@ -50,11 +51,14 @@ class HomeController extends Controller
     public function filter($idCategory)
     {
         if (intval($idCategory) === 0) {
-            return Book::where('available_quantity', '>', '0')->paginate(9);
+            return Book::where('available_quantity', '>', '0')
+                ->orderBy('created_at', 'desc')
+                ->paginate(9);
         } else {
             return Genre::findOrFail($idCategory)
                 ->books()
                 ->where('available_quantity', '>', '0')
+                ->orderBy('created_at', 'desc')
                 ->paginate(9);
         }
     }

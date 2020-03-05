@@ -19,7 +19,11 @@ class CartController extends Controller
                     $book->title,
                     1,
                     $book->price,
-                    $book->available_quantity
+                    0,
+                    [
+                        'image' => $book->image,
+                        'available_quantity' => $book->available_quantity
+                    ]
                 );
             } else {
                 return response()->json(

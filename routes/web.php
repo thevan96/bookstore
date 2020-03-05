@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
+
 Auth::routes();
 
 Route::prefix('')->group(function () {
@@ -57,8 +58,14 @@ Route::prefix('admin')->group(function () {
         'index',
         'create',
         'store',
+        'edit',
         'show',
         'update',
         'destroy'
     ])->middleware('auth');
+
+
 });
+
+    Route::put('book/{id}', 'BookController@update')->name('aaa');
+

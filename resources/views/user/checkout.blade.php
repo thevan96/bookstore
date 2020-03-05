@@ -48,10 +48,10 @@
                                 </div>
                                 <div class="form__btn">
                                     <button>Đăng nhập</button>
-                                    {{-- <label class="label-for-checkbox"> --}}
-                                    {{-- <input id="rememberme" name="rememberme" value="forever" type="checkbox"> --}}
-                                    {{-- <span>Remember me</span> --}}
-                                    {{-- </label> --}}
+                                    <label class="label-for-checkbox">
+                                    <input id="rememberme" name="rememberme" value="forever" type="checkbox">
+                                    <span>Remember me</span>
+                                    </label>
                                     <a href="#">Mất tài khoản</a>
                                 </div>
                             </form>
@@ -68,8 +68,8 @@
                                 @csrf
                                 <div class="input_box form-group">
                                     <label for="full_name">Họ và tên<span>*</span></label>
-                                    <input type="text" name="full_name" id="full_name" value="{{ old('name') }}"
-                                                                        class="form-control @error('full_name') is-invalid @enderror" size="50" value="">
+                                    <input type="text" name="full_name" id="full_name" value="{{ old('full_name') }}"
+                                        class="form-control @error('full_name') is-invalid @enderror" size="50" value="">
                                     @error('full_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -192,23 +192,23 @@
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                                    <div class="thumb">
-                                        <a href="product-details.html"><img
-                                                src="{{ asset('assets/user/images/product/sm-img/1.jpg') }}"
-                                                alt="product images"></a>
-                                    </div>
-                                    <div class="content">
-                                        <h6><a href="product-details.html">${v.name}</a></h6>
-                                        <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                                        <div class="product_prize d-flex justify-content-between">
-                                            <ul class="d-flex justify-content-end">
-                                                <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br> `
+                        <div class="thumb">
+                            <a href="product-details.html"><img
+                                    src="${v.options.image}"
+                                    alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br> `
                 );
             });
         };
