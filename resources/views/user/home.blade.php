@@ -38,7 +38,7 @@
                         <aside class="wedget__categories poroduct--cat">
                             <h3 class="wedget__title">Thể loại sách</h3>
                             <ul>
-                                <li><a href="{{ route('home.index') }}">Tất cả thể loại <span>{{ $total }}</span></a></li>
+                                <li><a href="{{ route('home.index') }}">Tất cả thể loại <span>({{ $total }})</span></a></li>
                                 @foreach ($genres as $genre)
                                     <li>
                                         <a
@@ -172,23 +172,23 @@
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                                <div class="thumb">
-                                    <a href="product-details.html"><img
-                                            src="${v.options.image}"
-                                            alt="product images"></a>
-                                </div>
-                                <div class="content">
-                                    <h6><a href="product-details.html">${v.name}</a></h6>
-                                    <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                                    <div class="product_prize d-flex justify-content-between">
-                                        <ul class="d-flex justify-content-end">
-                                            <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        <div class="thumb">
+                            <a href="product-details.html"><img
+                                    src="${v.options.image}"
+                                    alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
                             </div>
-                            <br> `
+                        </div>
+                    </div>
+                    <br> `
                 );
             });
         };
@@ -219,7 +219,8 @@
 
         @if(Session::has('success'))
             $.notify({
-                message: '{{ Session::get('success') }}'
+                message: '{{ Session::get('
+                success ') }}'
             }, {
                 type: 'success'
             });
@@ -228,8 +229,8 @@
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Access-Control-Allow-Origin': 'https://app-book-store.herokuapp.com/'
+                    'Access-Control-Allow-Origin': '*',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
             drawCart();

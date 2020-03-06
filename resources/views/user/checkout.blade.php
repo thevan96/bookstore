@@ -1,28 +1,28 @@
 @extends('user.layout')
 @section('title', 'Checkout')
-    
+
 @section('css')
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{ asset('assets/user/images/favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/user/images/icon.png') }}">
-    
+
     <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/plugins.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/style.css') }}">
-    
+
     <!-- Cusom css -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/custom.css') }}">
-    
+
     <!-- Modernizer js -->
     <script src="{{ asset('assets/user/js/vendor/modernizr-3.5.0.min.js') }}"></script>
-    
+
 @endsection()
 
 @section('content')
@@ -49,7 +49,7 @@
                                         </div>
                                         @enderror
                                     </div>
-        
+
                                     <div class="input__box form-group">
                                         <label for="password">Mật khẩu</label>
                                         <input id="password" name="password" type="password"
@@ -124,12 +124,12 @@
                                         </div>
                                         @enderror
                                     </div>
-    
+
                                     <div class="input_box space_between form-group">
-                                        <label for="email">Email <span>*</span></label>
-                                        <input type="email" name="email" id="email"
+                                        <label for="email-account">Email <span>*</span></label>
+                                        <input type="email" name="email-account" id="email-account"
                                             class="form-control @error('email') is-invalid @enderror" size="30"
-                                            value="{{ old('email', Auth::user()->email ?? '') }}">
+                                            value="{{ old('email-account', Auth::user()->email ?? '') }}">
                                         @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -140,18 +140,32 @@
                                 @guest
                                     <div class="create__account">
                                         <div class="wn__accountbox">
-                                            <input class="input-checkbox" name="create-account" value="0" type="checkbox">
-                                            <span>Tạo tài khoản</span>
+                                            <input class="input-checkbox" id="create-account" name="create-account"
+                                                type="checkbox" value="0">
+                                            <label>Tạo tài khoản</label>
                                         </div>
                                         <div class="account__field">
                                             <div class="form-group">
-                                                <label for="password">Mật khẩu tài khoản</label>
-                                                <input type="text" id="password" name="password" placeholder="Mật khẩu"
-                                                    class="form-control">
+                                                <label for="password-account">Mật khẩu tài khoản</label>
+                                                <input type="password" id="password-account" name="password-account"
+                                                    placeholder="Mật khẩu" value="{{ old('password-account') }}"
+                                                    class="form-control @error('password-account') is-invalid @enderror">
+                                                @error('password-account')
+                                                <p class="text-danger">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>{{ $message }}
+                                                </p>
+                                                @enderror
+                                                <label type="repeat-password">Nhập lại mật khẩu</label>
+                                                <input type="password" id="repeat-password-account"
+                                                    name="repeat-password-account" placeholder="Nhập lại mật khẩu"
+                                                    value="{{ old('repeat-password-account') }}"
+                                                    class="form-control @error('repeat-password-account') is-invalid @enderror">
+                                                @error('repeat-password-account')
+                                                <p class="text-danger">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>{{ $message }}
+                                                </p>
+                                                @enderror
                                             </div>
-                                            <label type="repeat-password">Nhập lại mật khẩu</label>
-                                            <input type="password" id="repeat-password" name="repeat-password"
-                                                placeholder="Nhập lại mật khẩu" class="form-control">
                                         </div>
                                     </div>
                                 @endguest
@@ -193,7 +207,7 @@
     <script src="{{ asset('assets/user/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/user/js/active.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins/bootstrap-notify.js') }}"></script>
-    
+
     @routes
     <script>
         const addToCartAjax = id => {
@@ -204,7 +218,7 @@
                 dataType: 'json'
             });
         };
-    
+
         const removeCartAjax = id => {
             return $.ajax({
                 method: 'delete',
@@ -213,7 +227,7 @@
                 dataType: 'json'
             });
         };
-    
+
         const initCartAjax = id => {
             return $.ajax({
                 method: 'get',
@@ -222,35 +236,35 @@
                 dataType: 'json'
             });
         };
-    
+
         const setData = data => {
             $('#quantity').text(data.quantity)
             $('#total-header').text(data.total)
-    
+
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                            <div class="thumb">
-                                <a href="product-details.html"><img src="${v.options.image}" alt="product images"></a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">${v.name}</a></h6>
-                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                                <div class="product_prize d-flex justify-content-between">
-                                    <ul class="d-flex justify-content-end">
-                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <br> `
+                                            <div class="thumb">
+                                                <a href="product-details.html"><img src="${v.options.image}" alt="product images"></a>
+                                            </div>
+                                            <div class="content">
+                                                <h6><a href="product-details.html">${v.name}</a></h6>
+                                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                                                <div class="product_prize d-flex justify-content-between">
+                                                    <ul class="d-flex justify-content-end">
+                                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br> `
                 );
             });
         };
-    
+
         const removeCart = id => {
             removeCartAjax(id).done(result => {
                 console.log(result);
@@ -259,7 +273,7 @@
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
-    
+
         const drawCart = () => {
             initCartAjax().done(data => {
                 setData(data);
@@ -267,14 +281,14 @@
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
-    
+
         @if(Session::has('login-fail'))
             $.notify({
                 message: "{{ Session::get('login-fail') }}"
             }, {
                 type: 'success'
             });
-        
+
         @endif
         $(document).ready(function() {
             $.ajaxSetup({
@@ -284,6 +298,6 @@
             });
             drawCart();
         });
-    
+
     </script>
 @endsection()

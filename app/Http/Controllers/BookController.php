@@ -19,8 +19,10 @@ class BookController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $books = Book::all();
+            $books->makeHidden(['image']);
             return response()->json([
-                'data' => Book::all()
+                'data' => $books
             ]);
         }
         return view('admin.books');

@@ -8,17 +8,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index($idCategory = 0, Request $request)
     {
         $books = $this->filter($idCategory);
         $genres = Genre::withCount('books')->get();
         $total = count(Book::all());
-
         return view('user.home', compact('genres', 'books', 'total'));
     }
 
@@ -74,4 +69,5 @@ class HomeController extends Controller
     {
         return view('user.listCart');
     }
+
 }
