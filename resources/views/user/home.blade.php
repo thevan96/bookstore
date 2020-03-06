@@ -168,8 +168,6 @@
             $('#total-header').text(data.total)
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
 
-            console.log(carts);
-
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(

@@ -20,8 +20,7 @@ use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'first_name' => 'Thế Văn',
-        'last_name' => 'Võ',
+        'name' => 'Thế Văn',
         'avatar' => 'defautl_avatar',
         'email' => 'vothevan96@gmail.com',
         'phone' => '123456789',

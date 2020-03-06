@@ -1,28 +1,28 @@
 @extends('user.layout')
 @section('title', 'Checkout')
-
+    
 @section('css')
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{ asset('assets/user/images/favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/user/images/icon.png') }}">
-
+    
     <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-
+    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/plugins.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/style.css') }}">
-
+    
     <!-- Cusom css -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/custom.css') }}">
-
+    
     <!-- Modernizer js -->
     <script src="{{ asset('assets/user/js/vendor/modernizr-3.5.0.min.js') }}"></script>
-
+    
 @endsection()
 
 @section('content')
@@ -31,31 +31,47 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="wn_checkout_wrap">
-                        <div class="checkout_info">
-                            {{-- <span>Nếu đã có tài khoản</span> --}}
-                            <a class="showlogin" href="#">Nếu đã có tài khoản</a>
-                        </div>
-                        <div class="checkout_login">
-                            <form class="wn__checkout__form" action="#">
-                                <div class="input__box">
-                                    <label>Email</label>
-                                    <input type="text">
-                                </div>
-
-                                <div class="input__box">
-                                    <label>Mật khẩu</label>
-                                    <input type="password">
-                                </div>
-                                <div class="form__btn">
-                                    <button>Đăng nhập</button>
-                                    <label class="label-for-checkbox">
-                                    <input id="rememberme" name="rememberme" value="forever" type="checkbox">
-                                    <span>Remember me</span>
-                                    </label>
-                                    <a href="#">Mất tài khoản</a>
-                                </div>
-                            </form>
-                        </div>
+                        @guest
+                            <div class="checkout_info">
+                                <a class="showlogin" href="#">Nếu đã có tài khoản</a>
+                            </div>
+                            <div class="checkout_login">
+                                <form class="wn__checkout__form" action=" {{ route('order.login') }}" method="post">
+                                    @csrf
+                                    <div class="input__box form-group">
+                                        <label for="email">Email</label>
+                                        <input id="email" name="email" type="email"
+                                            class="form-control @error('email') is-invalid @enderror"
+                                            value="{{ old('email') }}">
+                                        @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+        
+                                    <div class="input__box form-group">
+                                        <label for="password">Mật khẩu</label>
+                                        <input id="password" name="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            value="{{ old('password') }}">
+                                        @error('password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form__btn">
+                                        <button>Đăng nhập</button>
+                                        <label class="label-for-checkbox">
+                                            <input id="rememberme" name="rememberme" value="forever" type="checkbox">
+                                            <span>Remember me</span>
+                                        </label>
+                                        <a href="#">Mất tài khoản</a>
+                                    </div>
+                                </form>
+                            </div>
+                        @endguest
                     </div>
                 </div>
             </div>
@@ -68,9 +84,10 @@
                                 @csrf
                                 <div class="input_box form-group">
                                     <label for="full_name">Họ và tên<span>*</span></label>
-                                    <input type="text" name="full_name" id="full_name" value="{{ old('full_name') }}"
-                                        class="form-control @error('full_name') is-invalid @enderror" size="50" value="">
-                                    @error('full_name')
+                                    <input type="text" name="name" id="full_name"
+                                        value="{{ old('name', Auth::user()->name ?? '') }}"
+                                        class="form-control @error('name') is-invalid @enderror" size="50" value="">
+                                    @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -99,18 +116,20 @@
                                     <div class="input_box space_between">
                                         <label for="phone">Số điện thoại <span>*</span></label>
                                         <input type="text" name="phone" id="phone"
-                                            class="form-control @error('phone') is-invalid @enderror" size="30">
+                                            class="form-control @error('phone') is-invalid @enderror" size="30"
+                                            value="{{ old('phone', Auth::user()->phone ?? '') }}">
                                         @error('phone')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                         @enderror
                                     </div>
-
+    
                                     <div class="input_box space_between form-group">
                                         <label for="email">Email <span>*</span></label>
                                         <input type="email" name="email" id="email"
-                                            class="form-control @error('phone') is-invalid @enderror" size="30">
+                                            class="form-control @error('email') is-invalid @enderror" size="30"
+                                            value="{{ old('email', Auth::user()->email ?? '') }}">
                                         @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -118,7 +137,28 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Xác nhận đơn hàng</button>
+                                @guest
+                                    <div class="create__account">
+                                        <div class="wn__accountbox">
+                                            <input class="input-checkbox" name="create-account" value="0" type="checkbox">
+                                            <span>Tạo tài khoản</span>
+                                        </div>
+                                        <div class="account__field">
+                                            <div class="form-group">
+                                                <label for="password">Mật khẩu tài khoản</label>
+                                                <input type="text" id="password" name="password" placeholder="Mật khẩu"
+                                                    class="form-control">
+                                            </div>
+                                            <label type="repeat-password">Nhập lại mật khẩu</label>
+                                            <input type="password" id="repeat-password" name="repeat-password"
+                                                placeholder="Nhập lại mật khẩu" class="form-control">
+                                        </div>
+                                    </div>
+                                @endguest
+                                <br>
+                                @if (Cart::count() > 0)
+                                    <button type="submit" class="btn btn-primary">Xác nhận đơn hàng</button>
+                                @endif
                             </form>
                         </div>
                     </div>
@@ -153,7 +193,7 @@
     <script src="{{ asset('assets/user/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/user/js/active.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins/bootstrap-notify.js') }}"></script>
-
+    
     @routes
     <script>
         const addToCartAjax = id => {
@@ -164,7 +204,7 @@
                 dataType: 'json'
             });
         };
-
+    
         const removeCartAjax = id => {
             return $.ajax({
                 method: 'delete',
@@ -173,7 +213,7 @@
                 dataType: 'json'
             });
         };
-
+    
         const initCartAjax = id => {
             return $.ajax({
                 method: 'get',
@@ -182,37 +222,35 @@
                 dataType: 'json'
             });
         };
-
+    
         const setData = data => {
             $('#quantity').text(data.quantity)
             $('#total-header').text(data.total)
-
+    
             const carts = Object.keys(data.listCart).map(i => data.listCart[i]);
             $('#list-cart').text('');
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                        <div class="thumb">
-                            <a href="product-details.html"><img
-                                    src="${v.options.image}"
-                                    alt="product images"></a>
-                        </div>
-                        <div class="content">
-                            <h6><a href="product-details.html">${v.name}</a></h6>
-                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                            <div class="product_prize d-flex justify-content-between">
-                                <ul class="d-flex justify-content-end">
-                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                    </li>
-                                </ul>
+                            <div class="thumb">
+                                <a href="product-details.html"><img src="${v.options.image}" alt="product images"></a>
+                            </div>
+                            <div class="content">
+                                <h6><a href="product-details.html">${v.name}</a></h6>
+                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                                <div class="product_prize d-flex justify-content-between">
+                                    <ul class="d-flex justify-content-end">
+                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <br> `
+                        <br> `
                 );
             });
         };
-
+    
         const removeCart = id => {
             removeCartAjax(id).done(result => {
                 console.log(result);
@@ -221,7 +259,7 @@
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
-
+    
         const drawCart = () => {
             initCartAjax().done(data => {
                 setData(data);
@@ -229,7 +267,15 @@
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
-
+    
+        @if(Session::has('login-fail'))
+            $.notify({
+                message: "{{ Session::get('login-fail') }}"
+            }, {
+                type: 'success'
+            });
+        
+        @endif
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -238,6 +284,6 @@
             });
             drawCart();
         });
-
+    
     </script>
 @endsection()

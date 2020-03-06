@@ -32,40 +32,28 @@ Route::prefix('cart')->group(function () {
 
 Route::prefix('order')->group(function () {
     Route::get('/index', 'OrderController@index')->name('order.index');
+    Route::post('/login', 'OrderController@login')->name('order.login');
     Route::post('/create', 'OrderController@store')->name('order.store');
 });
 
-
 Route::prefix('admin')->group(function () {
+    Route::resource('genres', 'GenreController')
+        ->only(['index', 'store', 'show', 'update', 'destroy'])
+        ->middleware('auth');
 
-    Route::resource('genres', 'GenreController')->only([
-        'index',
-        'store',
-        'show',
-        'update',
-        'destroy'
-    ])->middleware('auth');
+    Route::resource('publishers', 'PublisherController')
+        ->only(['index', 'store', 'show', 'update', 'destroy'])
+        ->middleware('auth');
 
-    Route::resource('publishers', 'PublisherController')->only([
-        'index',
-        'store',
-        'show',
-        'update',
-        'destroy'
-    ])->middleware('auth');
-
-    Route::resource('books', 'BookController')->only([
-        'index',
-        'create',
-        'store',
-        'edit',
-        'show',
-        'update',
-        'destroy'
-    ])->middleware('auth');
-
-
+    Route::resource('books', 'BookController')
+        ->only([
+            'index',
+            'create',
+            'store',
+            'edit',
+            'show',
+            'update',
+            'destroy'
+        ])
+        ->middleware('auth');
 });
-
-    Route::put('book/{id}', 'BookController@update')->name('aaa');
-

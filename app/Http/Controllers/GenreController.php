@@ -73,7 +73,7 @@ class GenreController extends Controller
     {
         if ($request->ajax()) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|unique:genres|max:30'
+                'name' => "required|unique:genres,id|max:30"
             ]);
 
             if ($validator->fails()) {

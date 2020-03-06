@@ -34,7 +34,6 @@ class PublisherController extends Controller
     {
         if ($request->ajax()) {
 
-            // Validator
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:publishers|max:30',
                 'address' => 'required',
@@ -81,7 +80,7 @@ class PublisherController extends Controller
 
             // Validator
             $validator = Validator::make($request->all(), [
-                'name' => 'required|unique:publishers|max:30',
+                'name' => 'required|unique:publishers,id|max:50',
                 'address' => 'required',
                 'phone' => 'required',
             ]);

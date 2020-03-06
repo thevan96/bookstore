@@ -47,11 +47,13 @@
                             </table>
                         </div>
                     </form>
-                    <div class="cartbox__btn">
-                        <ul class="flex-wrap cart__btn__list d-flex flex-md-nowrap flex-lg-nowrap justify-content-between">
-                            <li><a href="{{ route('order.index') }}">Thanh toán</a></li>
-                        </ul>
-                    </div>
+                    @if(Cart::count() > 0)
+                        <div class="cartbox__btn">
+                            <ul class="flex-wrap cart__btn__list d-flex flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <li><a href="{{ route('order.index') }}">Thanh toán</a></li>
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -127,13 +129,13 @@
             $.each(carts, (i, v) => {
                 $('#table-carts').append(
                     ` <tr>
-                            <td class="product-thumbnail"><a href="#"><img src="${v.options.image}" alt="product img" style="width:80px; height:100px;"></a></td>
-                            <td class="product-name"><a href="#">${v.name}</a></td>
-                            <td class="product-price"><span class="amount" id="price-${i}">${v.price}</span></td>
-                            <td class="product-quantity"><input type="number" value="${v.qty}" onchange="updatePrice(this, ${i}, '${v.rowId}');" min="1" max="${v.options.available_quantity}"></td>
-                            <td class="product-subtotal" id="price-each-${i}">${v.price * v.qty}</td>
-                            <td class="product-remove"><a onclick="removeCart('${v.rowId}')">X</a></td>
-                        </tr> `
+                                <td class="product-thumbnail"><a href="#"><img src="${v.options.image}" alt="product img" style="width:80px; height:100px;"></a></td>
+                                <td class="product-name"><a href="#">${v.name}</a></td>
+                                <td class="product-price"><span class="amount" id="price-${i}">${v.price}</span></td>
+                                <td class="product-quantity"><input type="number" value="${v.qty}" onchange="updatePrice(this, ${i}, '${v.rowId}');" min="1" max="${v.options.available_quantity}"></td>
+                                <td class="product-subtotal" id="price-each-${i}">${v.price * v.qty}</td>
+                                <td class="product-remove"><a onclick="removeCart('${v.rowId}')">X</a></td>
+                            </tr> `
                 );
             });
         };
@@ -158,23 +160,23 @@
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                        <div class="thumb">
-                            <a href="product-details.html"><img
-                                    src="${v.options.image}"
-                                    alt="product images"></a>
-                        </div>
-                        <div class="content">
-                            <h6><a href="product-details.html">${v.name}</a></h6>
-                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
-                            <div class="product_prize d-flex justify-content-between">
-                                <ul class="d-flex justify-content-end">
-                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                    </li>
-                                </ul>
+                            <div class="thumb">
+                                <a href="product-details.html"><img
+                                        src="${v.options.image}"
+                                        alt="product images"></a>
+                            </div>
+                            <div class="content">
+                                <h6><a href="product-details.html">${v.name}</a></h6>
+                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                                <div class="product_prize d-flex justify-content-between">
+                                    <ul class="d-flex justify-content-end">
+                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <br> `
+                        <br> `
                 );
             });
         };
