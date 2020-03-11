@@ -229,7 +229,6 @@
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
-                    'Access-Control-Allow-Origin': '*',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });

@@ -64,7 +64,7 @@
 
         const deleteBook = id => {
             bootbox.confirm({
-                message: "Bạn có thực sự muốn xóa danh mục này ?",
+                message: "Bạn có thực sự muốn xóa sách này ?",
                 buttons: {
                     confirm: {
                         label: 'Có',

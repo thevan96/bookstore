@@ -171,7 +171,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-info">Thêm sách mới</button>
+                <button type="submit" class="btn btn-info">Cập nhật sách</button>
         </div>
         @error('sale')
         <div class="invalid-feedback">
