@@ -219,8 +219,7 @@
 
         @if(Session::has('success'))
             $.notify({
-                message: '{{ Session::get('
-                success ') }}'
+                message: '{{ Session::get('success') }}'
             }, {
                 type: 'success'
             });

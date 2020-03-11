@@ -162,6 +162,5 @@
 
             drawTable();
         });
-
     </script>
 @endsection()

@@ -31,6 +31,6 @@ class Book extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(Order::class)->withTimestamps();
+        return $this->belongsToMany(Order::class)->withPilot('quantity', 'price_each', 'created_at', 'updated_at');
     }
 }

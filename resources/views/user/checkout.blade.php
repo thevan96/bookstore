@@ -1,4 +1,5 @@
 @extends('user.layout')
+
 @section('title', 'Checkout')
 
 @section('css')
@@ -36,7 +37,7 @@
                                 <a class="showlogin" href="#">Nếu đã có tài khoản</a>
                             </div>
                             <div class="checkout_login">
-                                <form class="wn__checkout__form" action=" {{ route('order.login') }}" method="post">
+                                <form class="wn__checkout__form" action=" {{ route('cart.login') }}" method="post">
                                     @csrf
                                     <div class="input__box form-group">
                                         <label for="email">Email</label>
@@ -80,7 +81,7 @@
                     <div class="customer_details">
                         <h3>Chi tiết thanh toán</h3>
                         <div class="customar__field">
-                            <form method="post" action="{{ route('order.store') }}">
+                            <form method="post" action="{{ route('cart.store') }}">
                                 @csrf
                                 <div class="input_box form-group">
                                     <label for="full_name">Họ và tên<span>*</span></label>
@@ -246,21 +247,21 @@
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                                            <div class="thumb">
-                                                <a href="product-details.html"><img src="${v.options.image}" alt="product images"></a>
-                                            </div>
-                                            <div class="content">
-                                                <h6><a href="product-details.html">${v.name}</a></h6>
-                                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
-                                                <div class="product_prize d-flex justify-content-between">
-                                                    <ul class="d-flex justify-content-end">
-                                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br> `
+                        <div class="thumb">
+                            <a href="product-details.html"><img src="${v.options.image}" alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br> `
                 );
             });
         };

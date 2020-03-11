@@ -141,10 +141,10 @@
                                 </div>
                                 <div>
                                     <div class="mini_action cart">
-                                        <a class="cart__btn" href="{{ route('home.cart') }}">Xem và chỉnh sửa giỏ hàng</a>
+                                        <a class="cart__btn" href="{{ route('home.carts') }}">Xem và chỉnh sửa giỏ hàng</a>
                                     </div>
                                     <div class="mini_action cart">
-                                        <a class="cart__btn" href="{{ route('order.index') }}">Thanh toán</a>
+                                        <a class="cart__btn" href="{{ route('cart.checkout') }}">Thanh toán</a>
                                     </div>
                                 </div>
                             </div>

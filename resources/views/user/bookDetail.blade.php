@@ -44,18 +44,14 @@
                             <div class="col-lg-6 col-12">
                                 <div class="product__info__main">
                                     <h1>{{ $book->title }}</h1>
-                                    <div class="price-box">
-                                        <span>{{ $book->price }}</span>
+                                    <div class="product_meta">
+                                        <h3>{{ $book->author }}</h3>
                                     </div>
-                                    <div class="product__overview">
-                                        <h1>Tác giả</h1>
-                                        <p>{{ $book->author }}</p>
-                                    </div>
-                                    <div class="box-tocart d-flex">
-                                        <div class="addtocart__actions">
-                                            <button class="tocart" onclick="addToCart({{ $book->id }})"
-                                                title="Add to Cart">Thêm vào giỏ hàng</button>
-                                        </div>
+                                    <br>
+                                    <div class="product_meta">
+                                        <span class="posted_in">Giá :
+                                            <a href="javascript:;">{{ $book->price }}</a>
+                                        </span>
                                     </div>
                                     <div class="product_meta">
                                         <span class="posted_in">Thể loại :
@@ -67,13 +63,20 @@
                                             <a href="javascript:;">{{ $book->publication_date }}</a>
                                         </span>
                                     </div>
+                                    <br>
+                                    <div class="box-tocart d-flex">
+                                        <div class="addtocart__actions">
+                                            <button class="tocart" onclick="addToCart({{ $book->id }})"
+                                                title="Add to Cart">Thêm vào giỏ hàng</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="product__info__detailed">
                         <div class="pro_details_nav nav justify-content-start" role="tablist">
-                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Details</a>
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Mô tả sách</a>
                         </div>
                         <div class="tab__container">
                             <!-- Start Single Tab Content -->

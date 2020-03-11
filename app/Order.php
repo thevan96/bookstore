@@ -17,6 +17,6 @@ class Order extends Model
 
     public function books()
     {
-        return $this->belongsToMany('App\Book')->withTimestamps();
+        return $this->belongsToMany(Book::class)->withPivot('quantity', 'price_each', 'created_at', 'updated_at');
     }
 }

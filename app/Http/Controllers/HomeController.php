@@ -25,7 +25,7 @@ class HomeController extends Controller
             ->books()
             ->where('available_quantity', '>', '0')
             ->orderBy('created_at', 'desc')
-            ->paginate(9);
+            ->paginate(6);
         return view('user.home', compact('genres', 'books', 'total'));
     }
 
@@ -38,7 +38,7 @@ class HomeController extends Controller
         $books = Book::where('title', 'LIKE', "%{$keyword}%")
             ->orWhere('author', 'LIKE', "%{$keyword}%")
             ->orderBy('created_at', 'desc')
-            ->paginate(9);
+            ->paginate(6);
 
         return view('user.home', compact('genres', 'books', 'total'));
     }
@@ -48,13 +48,13 @@ class HomeController extends Controller
         if (intval($idCategory) === 0) {
             return Book::where('available_quantity', '>', '0')
                 ->orderBy('created_at', 'desc')
-                ->paginate(9);
+                ->paginate(6);
         } else {
             return Genre::findOrFail($idCategory)
                 ->books()
                 ->where('available_quantity', '>', '0')
                 ->orderBy('created_at', 'desc')
-                ->paginate(9);
+                ->paginate(6);
         }
     }
 
@@ -65,7 +65,7 @@ class HomeController extends Controller
         return view('user.bookDetail', compact('book', 'genre'));
     }
 
-    public function cart()
+    public function carts()
     {
         return view('user.listCart');
     }

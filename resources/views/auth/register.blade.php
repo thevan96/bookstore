@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('captcha')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endsection()
 
 @section('content')
     <div class="container">
@@ -12,28 +15,13 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="last_name" class="col-md-4 col-form-label text-md-right">Họ</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Tên</label>
 
                                 <div class="col-md-6">
-                                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror"
-                                        name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                        name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
-                                    @error('last_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="first_name" class="col-md-4 col-form-label text-md-right">Tên</label>
-
-                                <div class="col-md-6">
-                                    <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror"
-                                        name="first_name" value="{{ old('first_name') }}" required autocomplete="first_name" autofocus>
-
-                                    @error('first_name')
+                                    @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -81,6 +69,18 @@
                                     <input id="password-confirm" type="password" class="form-control"
                                         name="password_confirmation" required autocomplete="new-password">
                                 </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="offset-md-4 col-md-6">
+                                    <div class="g-recaptcha"  id="recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+                                </div>
+
+                                @error('g-recaptcha-response')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
 
                             <div class="mb-0 form-group row">

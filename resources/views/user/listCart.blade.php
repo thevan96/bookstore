@@ -50,7 +50,7 @@
                     @if(Cart::count() > 0)
                         <div class="cartbox__btn">
                             <ul class="flex-wrap cart__btn__list d-flex flex-md-nowrap flex-lg-nowrap justify-content-between">
-                                <li><a href="{{ route('order.index') }}">Thanh toán</a></li>
+                                <li><a href="{{ route('cart.checkout') }}">Thanh toán</a></li>
                             </ul>
                         </div>
                     @endif

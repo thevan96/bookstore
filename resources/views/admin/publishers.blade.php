@@ -267,9 +267,6 @@
                 ajax: route('publishers.index'),
                 columns: [
                     {
-                        'data': 'id',
-                    },
-                    {
                         'data': 'name',
                         'title': 'Tên nhà xuất bản'
                     },

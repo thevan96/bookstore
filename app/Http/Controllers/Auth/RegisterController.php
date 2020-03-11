@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
@@ -32,16 +33,6 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -50,8 +41,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'min:4'],
             'email' => [
                 'required',
                 'string',
@@ -59,7 +49,8 @@ class RegisterController extends Controller
                 'max:255',
                 'unique:users'
             ],
-            'password' => ['required', 'string', 'min:8', 'confirmed']
+            'password' => ['required', 'string', 'min:4', 'confirmed'],
+            'g-recaptcha-response' => ['required', new \App\Rules\ValidRecaptcha]
         ]);
     }
 
@@ -71,12 +62,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
+        $user = User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
             'avatar' => 'default_avatar',
             'password' => Hash::make($data['password'])
         ]);
+
+        Session::flash('success', 'Tạo tài khoản thành công');
+
+        return $user;
     }
 }

@@ -2,116 +2,108 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Order;
-use App\User;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Session;
+use App\Book;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        return view('user.checkout');
+        if ($request->ajax()) {
+            $orders = Order::all();
+            return response()->json([
+                'data' => $orders
+            ]);
+        }
+        return view('admin.orders');
     }
 
-    public function login(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $input = $request->only('email', 'password');
-        $validator = Validator::make($input, [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->route('order.index')
-                ->withErrors($validator)
-                ->withInput($input);
-        }
-
-        if (Auth::attempt($input)) {
-            return redirect()->route('order.index');
-        }
-
-        return redirect()
-            ->route('order.index')
-            ->with('login-fail', 'Đăng nhập thông tin không thành công');
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $isCreateAccount = $request->has('create-account');
-        if ($isCreateAccount) {
-            $validator = validator::make($input, [
-                'name' => 'required',
-                'address' => 'required',
-                'phone' => 'required',
-                'email-account' => 'required',
-                'password-account' => 'required',
-                'repeat-password-account' =>
-                    'required_with:password-account|same:password-account'
-            ]);
-        } else {
-            $validator = validator::make($input, [
-                'name' => 'required',
-                'address' => 'required',
-                'phone' => 'required',
-                'email-account' => 'required'
-            ]);
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Order $order, Request $request)
+    {
+        $order_book = [];
+        foreach($order->books as $book) {
+            $order_book[] = $book->pivot;
         }
 
-        if ($validator->fails()) {
-            return redirect('order/index')
-                ->withErrors($validator)
-                ->withInput($input);
-        }
+        return response()->json([
+            'order' => $order,
+            'order_book' => $order_book
+        ]);
+    }
 
-        $order = new Order();
-        $order->name = $request->input('name');
-        $order->address = $request->input('address');
-        $order->notes = $request->input('notes');
-        $order->phone = $request->input('phone');
-        $order->email = $request->input('email-account');
-        $order->status = false;
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Order $order)
+    {
+        //
+    }
 
-        if (!$isCreateAccount) {
-            $order->save();
-            foreach (Cart::content() as $cart) {
-                $order->books()->attach($cart->id, [
-                    'quantity' => $cart->qty,
-                    'price_each' => $cart->qty * $cart->price
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Order $order)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Order $order, Request $request)
+    {
+        if ($request->ajax()) {
+            $order->books()->detach();
+            $process = $order->delete();
+            if ($process) {
+                return response()->json([
+                    'success' => 'Xóa đơn hàng thành công'
                 ]);
             }
-            Cart::destroy();
-            Session::flash('success', 'Thêm đơn hàng thành công');
-            return redirect()->route('home.index');
-        } else {
-            $user = new User();
-            $user->name = $input['name'];
-            $user->email = $input['email-account'];
-            $user->avatar = 'default_avatar';
-            $user->phone = $input['phone'];
-            $user->password = Hash::make($input['password-account']);
-            $user->save();
-            auth()->login($user);
-            if (Auth::check()) {
-                $order->user_id = Auth::user()->id;
-            }
-            $order->save();
-            foreach (Cart::content() as $cart) {
-                $order->books()->attach($cart->id, [
-                    'quantity' => $cart->qty,
-                    'price_each' => $cart->qty * $cart->price
-                ]);
-            }
-            Cart::destroy();
-            Session::flash('success', 'Tạo tài khoản và thêm đơn hàng thành công');
-            return redirect()->route('home.index');
+            return response()->json(['error' => 'Lỗi xóa đơn hàng']);
         }
     }
 }

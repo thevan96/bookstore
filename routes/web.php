@@ -14,7 +14,7 @@
 Auth::routes();
 
 Route::prefix('')->group(function () {
-    Route::get('/cart', 'HomeController@cart')->name('home.cart');
+    Route::get('/carts', 'HomeController@carts')->name('home.carts');
     Route::get('/{id?}', 'HomeController@index')->name('home.index');
     Route::get('/detail/{id}', 'HomeController@show')->name('home.show');
     Route::get('/genre/{id}', 'HomeController@genre')->name('home.genre');
@@ -22,18 +22,15 @@ Route::prefix('')->group(function () {
 });
 
 Route::prefix('cart')->group(function () {
+    Route::get('/checkout', 'CartController@checkout')->name('cart.checkout');
+    Route::post('/login', 'CartController@login')->name('cart.login');
+    Route::post('/create', 'CartController@store')->name('cart.store');
     Route::get('/initCart', 'CartController@initCart')->name('cart.initCart');
     Route::get('/{id}', 'CartController@addToCart')->name('cart.addToCart');
     Route::delete('/{id}', 'CartController@removeCart')->name(
         'cart.removeCart'
     );
     Route::put('/{rowId}', 'CartController@update')->name('cart.update');
-});
-
-Route::prefix('order')->group(function () {
-    Route::get('/index', 'OrderController@index')->name('order.index');
-    Route::post('/login', 'OrderController@login')->name('order.login');
-    Route::post('/create', 'OrderController@store')->name('order.store');
 });
 
 Route::prefix('admin')->group(function () {
@@ -56,4 +53,5 @@ Route::prefix('admin')->group(function () {
             'destroy'
         ])
         ->middleware('auth');
+    Route::resource('orders', 'OrderController')->middleware('auth');
 });

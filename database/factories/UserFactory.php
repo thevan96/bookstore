@@ -22,7 +22,7 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => 'Thế Văn',
         'avatar' => 'defautl_avatar',
-        'email' => 'vothevan96@gmail.com',
+        'email' => 'admin@gmail.com',
         'phone' => '123456789',
         'is_admin' => true,
         'email_verified_at' => now(),
