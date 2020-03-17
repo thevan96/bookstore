@@ -38,11 +38,11 @@
                         <aside class="wedget__categories poroduct--cat">
                             <h3 class="wedget__title">Thể loại sách</h3>
                             <ul>
-                                <li><a href="{{ route('home.index') }}">Tất cả thể loại <span>({{ $total }})</span></a></li>
+                                <li><a href="javascript:;" onclick="getBookAll(1)">Tất cả thể loại <span>({{ $total }})</span></a></li>
                                 @foreach ($genres as $genre)
                                     <li>
-                                        <a
-                                            href="{{ route('home.genre', ['id' => $genre->id]) }}">{{ $genre->name }}<span>({{ $genre->books->count() }})</span></a>
+                                        <a href="javascript:;"
+                                            onclick="getBookGenre({{ $genre->id }})">{{ $genre->name }}<span>({{ $genre->books->count() }})</span></a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -53,69 +53,28 @@
                 <div class="order-1 col-lg-9 col-12 order-lg-2">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form action="{{ route('home.search') }}" method="POST">
+                            <div>
                                 <div class="mb-3 input-group">
-                                    @csrf
-                                    <input name="keyword" type="text" class="form-control"
-                                        placeholder="Nhập tên, tác giả sách cần tìm ...." value="{{ old('keyword') }}">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-secondary" type="button">Tìm
-                                            kiếm</button>
-                                    </div>
+                                    <input id="keyword" name="keyword" type="text" class="form-control"
+                                        placeholder="Nhập tên, tác giả sách cần tìm ...." value="">
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
 
                     <div class="tab__container">
                         <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
-                            <div class="row draw-data">
-                                @if (count($books) !== 0)
-                                    @foreach ($books as $book)
-                                        <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product__thumb">
-                                                <a class="first__img" href="javascript:;" style="width: 270px; height: 340px;">
-                                                    <img src="{{ $book->image }}" alt="product image">
-                                                </a>
-                                                @if ($book->sale !== 0)
-                                                    <div class="hot__box">
-                                                        <span class="hot-label">{{ $book->sale }} %</span>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="product__content content--center">
-                                                <h4><a href="single-product.html">{{ $book->title }}</a></h4>
-                                                <ul class="prize d-flex">
-                                                    <li>{{ number_format($book->price - $book->price * ($book->sale / 100), 3) }}
-                                                    </li>
-                                                    <li class="old_prize">{{ $book->price }}</li>
-                                                </ul>
-                                                <div class="action">
-                                                    <div class="actions_inner">
-                                                        <ul class="add_to_links">
-                                                            <li><a class="wishlist" onclick="addToCart({{ $book->id }})"><i
-                                                                        class="bi bi-shopping-cart-full"></i></a></li>
-                                                            <li><a title="Chi tiết" class="quickview modal-view detail-link"
-                                                                    href="{{ route('home.show', ['id' => $book->id]) }}">
-                                                                    <i class="bi bi-search"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- End --}}
-                                    @endforeach
-                                @else
-                                    <div>
-                                        <p>
-                                            Không tìm thấy kết quả nào phù hợp với từ khóa của bạn
-                                        </p>
-                                    </div>
-                                @endif
-                            </div>
-                            <ul class="wn__pagination">
-                                {{ $books->links() }}
+                            <div class="row" id="draw-book"></div>
+                            <ul class="wn__pagination" id="paginate-book">
+                                {{-- <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li> --}}
+                                {{-- <li class="active"><a href="#">1</a></li> --}}
+                                {{-- <li><a href="#">2</a></li> --}}
+                                {{-- <li><a href="#">3</a></li> --}}
+                                {{-- <li><a href="#">4</a></li> --}}
+                                {{-- <li><a href="#">5</a></li> --}}
+                                {{-- <li><a href="#">6</a></li> --}}
+                                {{-- <li><a href="#">7</a></li> --}}
+                                {{-- <li><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -163,6 +122,175 @@
             });
         };
 
+        const getBookAjax = (page) => {
+            return $.ajax({
+                method: 'get',
+                url: route('home.index', {
+                    'page': page
+                }),
+                contentType: 'application/json',
+                dataType: 'json'
+            });
+        };
+
+        const getBookGenreAjax = (id, page) => {
+            return $.ajax({
+                method: 'get',
+                url: route('home.genre', {
+                    'id': id,
+                    'page': page
+                }),
+                contentType: 'application/json',
+                dataType: 'json'
+            });
+        };
+
+        const searchAjax = (data, page) => {
+            return $.ajax({
+                method: 'post',
+                url: route('home.search', {
+                    'page' : page
+                }),
+                data: data,
+                contentType: 'application/json'
+            });
+        };
+
+        const getBookSearch = (page = 1) => {
+            let keyword = {};
+            keyword.value = $("#keyword").val();
+            let data = JSON.stringify(keyword);
+            searchAjax(data, page).done(result => {
+                drawBook(result);
+                drawPaginate(result, 'search');
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        $("#keyword").on('keyup', function(){
+            let keyword = {};
+            keyword.value = $('#keyword').val();
+            let data = JSON.stringify(keyword);
+            let page = 1;
+            searchAjax(data, page).done(result => {
+                drawBook(result);
+                drawPaginate(result, 'search');
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        });
+
+        const getBookGenre = (id = 1, page = 1) => {
+            getBookGenreAjax(id, page).done(result => {
+                drawBook(result);
+                drawPaginate(result, 'genre', id);
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        const getBookAll = (page = 1) => {
+            getBookAjax(page).done(result => {
+                drawBook(result);
+                drawPaginate(result, 'all');
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+
+        const drawBook = data => {
+            $('#draw-book').text('');
+            let isExistData = data.paginate.data.length !== 0;
+            if (isExistData) {
+                $.each(data.paginate.data, (index, value) => {
+                    $('#draw-book').append(
+                        `<div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="product__thumb">
+                                <a class="first__img" href="javascript:;" style="width: 270px; height: 340px;">
+                                    <img src="${value.image}" alt="product image">
+                                </a>
+                                <div class="${value.sale > 0 ? 'hot__box' : ''}">
+                                    <span class="hot-label">${value.sale > 0 ? value.sale : ''}</span>
+                                </div>
+                            </div>
+                            <div class="product__content content--center">
+                                <h4><a href="single-product.html">${value.title}</a></h4>
+                                <ul class="prize d-flex">
+                                    <li class="${value.sale > 0 ? '': 'text-center'}">${value.price - value.price * (value.sale / 100)}</li>
+                                    <li class="old_prize" >${value.sale > 0 ? value.price : ''}</li>
+                                </ul>
+                                <div class="action">
+                                    <div class="actions_inner">
+                                        <ul class="add_to_links" id="addToLink-${value.id}">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> `
+                    );
+                    if (value.available_quantity > 0){
+                        let link = route('home.show', value.id);
+                        $(`#addToLink-${value.id}`).append(
+                            `<li><a class="wishlist"><i class="bi bi-shopping-cart-full" onclick="addToCart(${value.id})"></i></a></li>
+                            <li><a title="Chi tiết" class="quickview modal-view detail-link" href="${link}"> <i class="bi bi-search"></i></a>`
+                        );
+                    } else {
+                        $(`#addToLink-${value.id}`).append(
+                            '<li><a class="wishlist"><i class="fa fa-ban" title="Hết hàng"></i></a></li>'
+                        );
+                    }
+                });
+            } else {
+                $('#draw-book').append(
+                `<div class="col">
+                    <p>Không có kết quả tìm kiếm phù hợp</p>
+                 </div>`
+                );
+            }
+        };
+
+        const drawPaginate = (data , type = 'all', id) => {
+            $('#paginate-book').text('');
+            let isExistData = data.paginate.data.length !== 0;
+            if (isExistData) {
+                let page = data.paginate.current_page;
+                let listPaginate = [];
+                for (let i = 1; i <= data.paginate.last_page; i++) {
+                    listPaginate.push((i - 1) * 7 + 1);
+                }
+
+                let beginPage = listPaginate.find(item => Math.abs(item - page) < 7);
+                let text = '';
+                $('#paginate-book').text('');
+                if(type === 'genre') {
+                    text += `<li><a onclick="getBookGenre(${id}, ${page - 1 > 0 ? page - 1 : 1})"><i class="zmdi zmdi-chevron-left"></i></a></li>`;
+                    for (let i = 0; i < 7 && beginPage + i <= data.paginate.last_page; i++) {
+                        text += `<li class="${page === beginPage + i ? 'active' : ''}"><a onclick="getBookGenre(${id}, ${beginPage + i})">${beginPage + i}</a></li> \n`;
+                    }
+                    text += `<li><a onclick="getBookGenre(${id}, ${page + 1 <= data.paginate.last_page ? page +1 : data.paginate.last_page})"><i class="zmdi zmdi-chevron-right"></i></a></li>`;
+                }
+
+                if (type === 'all') {
+                    text += `<li><a onclick="getBookAll(${page - 1 > 0 ? page - 1 : 1})"><i class="zmdi zmdi-chevron-left"></i></a></li>`;
+                    for (let i = 0; i < 7 && beginPage + i <= data.paginate.last_page; i++) {
+                        text += `<li class="${page === beginPage + i ? 'active' : ''}"><a onclick="getBookAll(${beginPage + i})">${beginPage + i}</a></li> \n`;
+                    }
+                    text += `<li><a onclick="getBookAll(${page + 1 <= data.paginate.last_page ? page +1 : data.paginate.last_page})"><i class="zmdi zmdi-chevron-right"></i></a></li>`;
+                }
+
+                if (type === 'search') {
+                    text += `<li><a onclick="getBookSearch(${page - 1 > 0 ? page - 1 : 1})"><i class="zmdi zmdi-chevron-left"></i></a></li>`;
+                    for (let i = 0; i < 7 && beginPage + i <= data.paginate.last_page; i++) {
+                        text += `<li class="${page === beginPage + i ? 'active' : ''}"><a onclick="getBookSearch(${beginPage + i})">${beginPage + i}</a></li> \n`;
+                    }
+                    text += `<li><a onclick="getBookSearch(${page + 1 <= data.paginate.last_page ? page +1 : data.paginate.last_page})"><i class="zmdi zmdi-chevron-right"></i></a></li>`;
+                }
+                $('#paginate-book').append(text);
+            }
+        };
+
         const setData = data => {
             $('#quantity').text(data.quantity)
             $('#total-header').text(data.total)
@@ -179,7 +307,7 @@
                         </div>
                         <div class="content">
                             <h6><a href="product-details.html">${v.name}</a></h6>
-                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnd</span>
+                            <span class="prize">${v.price} vnd</span>
                             <div class="product_prize d-flex justify-content-between">
                                 <ul class="d-flex justify-content-end">
                                     <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
@@ -231,6 +359,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            getBookAll();
             drawCart();
         });
 

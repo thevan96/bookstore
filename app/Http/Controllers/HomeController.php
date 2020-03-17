@@ -8,53 +8,42 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-
-    public function index($idCategory = 0, Request $request)
+    public function index(Request $request)
     {
-        $books = $this->filter($idCategory);
+        if ($request->ajax()) {
+            return response()->json([
+                'paginate' => Book::paginate(6)
+            ]);
+        }
+
         $genres = Genre::withCount('books')->get();
         $total = count(Book::all());
-        return view('user.home', compact('genres', 'books', 'total'));
+        return view('user.home', compact('genres', 'total'));
     }
 
-    public function genre($id)
+    public function genre($id, Request $request)
     {
-        $total = count(Book::all());
-        $genres = Genre::with('books')->get();
         $books = Genre::findOrFail($id)
             ->books()
             ->where('available_quantity', '>', '0')
             ->orderBy('created_at', 'desc')
             ->paginate(6);
-        return view('user.home', compact('genres', 'books', 'total'));
+
+        if ($request->ajax()) {
+            return response()->json(['paginate' => $books]);
+        }
     }
 
     public function search(Request $request)
     {
-        $total = count(Book::all());
-        $genres = Genre::with('books')->get();
-        $keyword = $request->input('keyword');
+        $keyword = $request->input('value');
 
-        $books = Book::where('title', 'LIKE', "%{$keyword}%")
-            ->orWhere('author', 'LIKE', "%{$keyword}%")
-            ->orderBy('created_at', 'desc')
-            ->paginate(6);
-
-        return view('user.home', compact('genres', 'books', 'total'));
-    }
-
-    public function filter($idCategory)
-    {
-        if (intval($idCategory) === 0) {
-            return Book::where('available_quantity', '>', '0')
+        if ($request->ajax()) {
+            $books = Book::where('title', 'LIKE', "%{$keyword}%")
+                ->orWhere('author', 'LIKE', "%{$keyword}%")
                 ->orderBy('created_at', 'desc')
                 ->paginate(6);
-        } else {
-            return Genre::findOrFail($idCategory)
-                ->books()
-                ->where('available_quantity', '>', '0')
-                ->orderBy('created_at', 'desc')
-                ->paginate(6);
+            return response()->json(['paginate' => $books]);
         }
     }
 
@@ -69,5 +58,4 @@ class HomeController extends Controller
     {
         return view('user.listCart');
     }
-
 }

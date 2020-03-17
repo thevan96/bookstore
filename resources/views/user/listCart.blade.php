@@ -129,13 +129,13 @@
             $.each(carts, (i, v) => {
                 $('#table-carts').append(
                     ` <tr>
-                                <td class="product-thumbnail"><a href="#"><img src="${v.options.image}" alt="product img" style="width:80px; height:100px;"></a></td>
-                                <td class="product-name"><a href="#">${v.name}</a></td>
-                                <td class="product-price"><span class="amount" id="price-${i}">${v.price}</span></td>
-                                <td class="product-quantity"><input type="number" value="${v.qty}" onchange="updatePrice(this, ${i}, '${v.rowId}');" min="1" max="${v.options.available_quantity}"></td>
-                                <td class="product-subtotal" id="price-each-${i}">${v.price * v.qty}</td>
-                                <td class="product-remove"><a onclick="removeCart('${v.rowId}')">X</a></td>
-                            </tr> `
+                        <td class="product-thumbnail"><a href="#"><img src="${v.options.image}" alt="product img" style="width:80px; height:100px;"></a></td>
+                        <td class="product-name"><a href="#">${v.name}</a></td>
+                        <td class="product-price"><span class="amount" id="price-${i}">${v.price}</span></td>
+                        <td class="product-quantity"><input type="number" value="${v.qty}" onchange="updatePrice(this, ${i}, '${v.rowId}');" min="1" max="${v.options.available_quantity}"></td>
+                        <td class="product-subtotal" id="price-each-${i}">${v.price * v.qty}</td>
+                        <td class="product-remove"><a onclick="removeCart('${v.rowId}')">X</a></td>
+                    </tr> `
                 );
             });
         };

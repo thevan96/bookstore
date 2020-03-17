@@ -42,7 +42,7 @@
                 <div class="modal-body">
                     <div class="form-group col">
                         <input type="hidden" id="genre_id" value="-1">
-                        <label for="genre_name">Tên danh mục</label>
+        <label for="genre_name">Tên danh mục</label>
                         <input type="text" class="form-control" id="genre_name" placeholder="Tên danh mục">
                         <div id="genre_name_error"></div>
                     </div>
