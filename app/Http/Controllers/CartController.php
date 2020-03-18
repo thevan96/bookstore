@@ -154,7 +154,7 @@ class CartController extends Controller
         $order->notes = $request->input('notes');
         $order->phone = $request->input('phone');
         $order->email = $request->input('email-account');
-        $order->status = false;
+        $order->status = 'new';
 
         if (!$isCreateAccount) {
             $order->save();

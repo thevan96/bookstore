@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->text('notes')->nullable();
-            $table->boolean('status');
+            $table->enum('status', ['new', 'confirming', 'confirmed', 'transporting' , 'complete', 'fail', 'destroy']);
             $table->unsignedInteger('user_id')->nullable();
             $table->string('phone');
             $table->string('email');

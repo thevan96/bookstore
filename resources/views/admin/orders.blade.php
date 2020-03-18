@@ -41,7 +41,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="publisher_id" value="-1">
+                    <input type="hidden" id="orderId">
                     <div class="form-group col">
                         <label for="name">Tên người đặt</label>
                         <input type="text" class="form-control" id="name" readonly>
@@ -52,7 +52,15 @@
                     </div>
                     <div class="form-group col">
                         <label for="status">Trạng thái</label>
-                        <input type="text" class="form-control" id="status" readonly>
+                        <select id="status" class="form-control">
+                          <option value="new" selected>Đơn hàng mới</option>
+                          <option value="confirming">Đang xác nhận</option>
+                          <option value="confirmed">Đã xác nhận</option>
+                          <option value="transported">Đang vận chuyển</option>
+                          <option value="complete">Hoàn tất</option>
+                          <option value="fail">Thất bại</option>
+                          <option value="destroy">Hủy</option>
+                        </select>
                     </div>
                     <div class="form-group col">
                         <label for="phone">Số điện thoại</label>
@@ -112,12 +120,13 @@
     @routes
     <script>
         const setData = data => {
+            $('#orderId').val(data.order.id);
             $('#name').val(data.order.name);
             $('#address').val(data.order.address);
             $('#status').val(data.order.status);
             $('#phone').val(data.order.phone);
             $('#email').val(data.order.email);
-            $('#notes').text(data.order.notes)
+            $('#notes').text(data.order.notes);
             $.each(data.order_book, (index, value) => {
                 temp = index;
                 $('#order_book').append(
@@ -130,6 +139,16 @@
                         </tr>
                     `
                 );
+            });
+        };
+
+        const updateStatusOrderAjax = (id, status) => {
+            return $.ajax({
+                method: 'patch',
+                url: route('orders.update', id),
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({'status': status}),
             });
         };
 
@@ -150,6 +169,16 @@
                 dataType: 'json'
             });
         };
+
+        $('#status').change(() => {
+            let status = $('#status').val();
+            let id = $('#orderId').val();
+            updateStatusOrderAjax(id, status).done(result => {
+                drawTable();
+            }).fail((jqXHR, textStatus, errorThrown) => {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        });
 
         const detailOrder = id => {
             $('.modal-title').text('Chi tiết đơn hàng');
@@ -189,7 +218,6 @@
                     }
                 }
             });
-
         };
 
         const drawTable = () => {
@@ -206,7 +234,19 @@
                     },
                     {
                         'data': 'status',
-                        'title': 'Trạng thái'
+                        'title': 'Trạng thái',
+                        render : function(data, type, row, meta) {
+                            let status = {
+                                'new' : 'Đơn hàng mới',
+                                'confirming': 'Đang xác nhận',
+                                'confirmed': 'Đã xác nhận',
+                                'transported': 'Đang vận chuyển',
+                                'complete': 'Hoàn tất',
+                                'fail': 'Thất bại',
+                                'destroy': 'Hủy bỏ'
+                            };
+                            return status[row.status];
+                        }
                     },
                     {
                         'data': 'phone',
@@ -244,9 +284,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
             drawTable();
         });
-
     </script>
 @endsection()

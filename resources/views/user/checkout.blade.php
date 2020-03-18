@@ -97,6 +97,7 @@
                                 <div class="input_box form-group">
                                     <label for="address">Địa chỉ nhận hàng<span>*</span></label>
                                     <input type="text" name="address" id="address"
+                                        value="{{ old('address') }}"
                                         class="form-control @error('address') is-invalid @enderror" size="50">
                                     @error('address')
                                     <div class="invalid-feedback">
@@ -106,7 +107,7 @@
                                 </div>
                                 <div class="input_box form-group">
                                     <textarea class="form-control @error('notes') is-invalid @enderror" id="" name="notes"
-                                        cols="60" rows="5" placeholder="Ghi chú khác"></textarea>
+                                        cols="60" rows="5" placeholder="Ghi chú khác">{{ old('notes') }}</textarea>
                                     @error('notes')
                                     <div class="invalid-feedback">
                                         {{ $message }}

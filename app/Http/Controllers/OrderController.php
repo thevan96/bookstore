@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Order;
-use App\Book;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -82,9 +81,14 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Order $order, Request $request)
     {
-        //
+        if($request->ajax()) {
+            $order->update(['status' => $request->input('status')]);
+            return response()->json([
+                'success' => $request->input('status')
+            ], 200);
+        }
     }
 
     /**
