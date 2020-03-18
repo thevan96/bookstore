@@ -20,12 +20,12 @@
         <div class="sidebar" data-color="white" data-active-color="danger">
             <!--  Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+                <a href="{{ env('APP_URL') }}/admin/books" class="simple-text logo-mini">
                     <div class="logo-image-small">
                         <img src="../assets/admin/img/logo-small.png">
                     </div>
                 </a>
-                <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+                <a href="{{ env('APP_URL') }}/admin/books" class="simple-text logo-normal">
                      Book Store
                 </a>
             </div>

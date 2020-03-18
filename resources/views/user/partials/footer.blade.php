@@ -9,25 +9,6 @@
                             <a href="index.html">
                                 <img src="{{ asset('assets/user/images/logo/3.png') }}" alt="logo">
                             </a>
-                            <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                have suffered duskam alteration variations of passages</p>
-                        </div>
-                        <div class="footer__content">
-                            <ul class="social__net social__net--2 d-flex justify-content-center">
-                                <li><a href="#"><i class="bi bi-facebook"></i></a></li>
-                                <li><a href="#"><i class="bi bi-google"></i></a></li>
-                                <li><a href="#"><i class="bi bi-twitter"></i></a></li>
-                                <li><a href="#"><i class="bi bi-linkedin"></i></a></li>
-                                <li><a href="#"><i class="bi bi-youtube"></i></a></li>
-                            </ul>
-                            <ul class="mainmenu d-flex justify-content-center">
-                                <li><a href="index.html">Trending</a></li>
-                                <li><a href="index.html">Best Seller</a></li>
-                                <li><a href="index.html">All Product</a></li>
-                                <li><a href="index.html">Wishlist</a></li>
-                                <li><a href="index.html">Blog</a></li>
-                                <li><a href="index.html">Contact</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -44,11 +25,6 @@
                                     Văn</a> All Rights
                                 Reserved</p>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="text-right payment">
-                        <img src="{{ asset('assets/user/images/icons/payment.png') }}" alt="" />
                     </div>
                 </div>
             </div>

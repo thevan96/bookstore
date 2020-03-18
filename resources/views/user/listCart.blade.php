@@ -160,23 +160,23 @@
             $.each(carts, (i, v) => {
                 $('#list-cart').append(
                     `<div class="item01 d-flex">
-                            <div class="thumb">
-                                <a href="product-details.html"><img
-                                        src="${v.options.image}"
-                                        alt="product images"></a>
-                            </div>
-                            <div class="content">
-                                <h6><a href="product-details.html">${v.name}</a></h6>
-                                <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
-                                <div class="product_prize d-flex justify-content-between">
-                                    <ul class="d-flex justify-content-end">
-                                        <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <div class="thumb">
+                            <a href="product-details.html"><img
+                                    src="${v.options.image}"
+                                    alt="product images"></a>
+                        </div>
+                        <div class="content">
+                            <h6><a href="product-details.html">${v.name}</a></h6>
+                            <span class="prize">${v.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                            <div class="product_prize d-flex justify-content-between">
+                                <ul class="d-flex justify-content-end">
+                                    <li><a onclick="removeCart('${v.rowId}')"><i class="zmdi zmdi-delete"></i></a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <br> `
+                    </div>
+                    <br> `
                 );
             });
         };

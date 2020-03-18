@@ -66,15 +66,6 @@
                         <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
                             <div class="row" id="draw-book"></div>
                             <ul class="wn__pagination" id="paginate-book">
-                                {{-- <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li> --}}
-                                {{-- <li class="active"><a href="#">1</a></li> --}}
-                                {{-- <li><a href="#">2</a></li> --}}
-                                {{-- <li><a href="#">3</a></li> --}}
-                                {{-- <li><a href="#">4</a></li> --}}
-                                {{-- <li><a href="#">5</a></li> --}}
-                                {{-- <li><a href="#">6</a></li> --}}
-                                {{-- <li><a href="#">7</a></li> --}}
-                                {{-- <li><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -204,21 +195,22 @@
             let isExistData = data.paginate.data.length !== 0;
             if (isExistData) {
                 $.each(data.paginate.data, (index, value) => {
+                    let link = route('home.show', value.id);
                     $('#draw-book').append(
                         `<div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="product__thumb">
-                                <a class="first__img" href="javascript:;" style="width: 270px; height: 340px;">
+                                <a class="first__img" href="${link}" style="width: 270px; height: 340px;">
                                     <img src="${value.image}" alt="product image">
                                 </a>
                                 <div class="${value.sale > 0 ? 'hot__box' : ''}">
-                                    <span class="hot-label">${value.sale > 0 ? value.sale : ''}</span>
+                                    <span class="hot-label">${value.sale > 0 ? value.sale : ''}%</span>
                                 </div>
                             </div>
                             <div class="product__content content--center">
                                 <h4><a href="single-product.html">${value.title}</a></h4>
                                 <ul class="prize d-flex">
-                                    <li class="${value.sale > 0 ? '': 'text-center'}">${value.price - value.price * (value.sale / 100)}</li>
-                                    <li class="old_prize" >${value.sale > 0 ? value.price : ''}</li>
+                                    <li class="${value.sale > 0 ? '': 'text-center'}">${(value.price - value.price * (value.sale / 100)).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</li>
+                                    <li class="old_prize" >${value.sale > 0 ? value.price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : ''}</li>
                                 </ul>
                                 <div class="action">
                                     <div class="actions_inner">
@@ -233,8 +225,7 @@
                     if (value.available_quantity > 0){
                         let link = route('home.show', value.id);
                         $(`#addToLink-${value.id}`).append(
-                            `<li><a class="wishlist"><i class="bi bi-shopping-cart-full" onclick="addToCart(${value.id})"></i></a></li>
-                            <li><a title="Chi tiết" class="quickview modal-view detail-link" href="${link}"> <i class="bi bi-search"></i></a>`
+                            `<li><a class="wishlist"><i class="bi bi-shopping-cart-full" onclick="addToCart(${value.id})"></i></a></li>`
                         );
                     } else {
                         $(`#addToLink-${value.id}`).append(
