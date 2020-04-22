@@ -112,7 +112,7 @@
 
                 <div>
                     <label for="image">Ảnh bìa sách <span>*</span></label><br>
-                    <image src="{{ old('image', url($book->image)) }}" style="width: 270px; height: 340px;" alt="image for book" class="form-control @error('image') is-invalid @enderror" id="image-preview" name="image-preview"> </image><br> <br>
+                    <image src="{{ old('image', $book->image) }}" style="width: 270px; height: 340px;" alt="image for book" class="form-control @error('image') is-invalid @enderror" id="image-preview" name="image-preview"> </image><br> <br>
                     <input type="file" id="image" name="image" accept="image/gif, image/jpeg, image/png">
                     @error('image')
                     <div class="invalid-feedback">

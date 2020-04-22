@@ -69,12 +69,11 @@ class BookController extends Controller
                 ->withInput($request->all());
         }
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store('images/books', 'public');
-            $input['image'] = $path;
+       if ($request->hasFile('image')) {
+            $image = base64_encode(file_get_contents($request->file('image')));
+            $input['image'] = 'data:image/png;base64,'.$image;
         }
-        /* dd($input); */
+
         $process = Book::create($input);
         if ($process) {
             Session::flash('success', 'Tạo sách mới thành công');
